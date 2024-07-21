@@ -14,9 +14,31 @@ and the Flutter guide for
 TODO: Put a short description of the package here that helps potential users
 know whether this package might be useful for them.
 
-## Features
+## Features Road Map
 
 TODO: List what your package can do. Maybe include images, gifs, or videos.
+
+### Before launch
+ * Parse text file into a journal
+ * Display and edit journal file
+ * Platform: Android, iOS
+ * Generate report from the journal
+
+|   report           | status |
+|:------------------:|--------|
+| aregister          |        |
+| balance            |        |
+| balancesheet       |        |
+| balancesheetequity |        |
+| cashflow           |        |
+| incomestatement    |        |
+| print              |        |
+| register           |        |
+
+### Launch Beta
+
+
+### Go public
 
 ## Getting started
 
@@ -30,6 +52,28 @@ to `/example` folder.
 
 ```dart
 const like = 'sample';
+```
+
+## Architecture
+
+The raw .ledger file would be parsed as a journal.
+
+```
+  journal
+    └─transaction
+        ├─date
+        ├─description
+        ├─record
+        │  ├─account
+        │  ├─amount
+        │  └─commodity
+        │      ├─amount
+        │      ├──unit
+        │      └──exchange
+        │         ├─amount
+        │         └─unit
+        ├─status
+        └─tag
 ```
 
 ## Additional information
