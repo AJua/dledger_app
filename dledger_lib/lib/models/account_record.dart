@@ -3,9 +3,9 @@ import './commodity.dart';
 
 class AccountRecord {
   final Account account;
-  final Commodity commodity;
+  Commodity? commodity;
 
-  AccountRecord(this.account, this.commodity);
+  AccountRecord(this.account, {this.commodity});
 
   @override
   String toString() {
