@@ -1,15 +1,49 @@
 import 'package:dledger_lib/models/commodity.dart';
+import 'package:dledger_lib/models/journal.dart';
 import 'package:dledger_lib/models/transaction.dart';
 
 import '../models/account.dart';
 import '../models/account_record.dart';
 
 class JournalParser {
+  Journal parseJournal(String journalText) {
+    var journal = Journal.init();
+    var transactionText = List<String>.empty(growable: true);
+    journalText.split('\n').forEach((lineText) {
+      var commentRegex = RegExp(r'(.*);.*');
+      var firstMatch = commentRegex.firstMatch(lineText);
+      var input = (firstMatch == null) ? lineText : firstMatch![1]!;
+
+      var emptyRegex = RegExp(r'^\s*$');
+      if (emptyRegex.firstMatch(input) != null) {
+        return;
+      }
+
+      var dateRegex = RegExp(r'^(\d{4}\-\d{1,2}\-\d{1,2})');
+      var match = dateRegex.firstMatch(input);
+      if (match == null && transactionText.isNotEmpty) {
+        transactionText.add(input);
+        return;
+      }
+      if (transactionText.isNotEmpty) {
+        journal.addTransaction(parseTransaction(transactionText));
+        transactionText = List<String>.empty(growable: true);
+      }
+      transactionText.add(input);
+    });
+    if (transactionText.isNotEmpty) {
+      journal.addTransaction(parseTransaction(transactionText));
+    }
+
+    return journal;
+  }
+
   Transaction parseTransaction(List<String> txnText) {
     var transactionRexExp = RegExp(r'^(\S+)\s+(.*)');
     var firstMath = transactionRexExp.firstMatch(txnText[0])!;
     var records = txnText.sublist(1).map((t) => parseRecord(t));
-    var recordWithoutCommodity = records.firstWhere((r) => r.commodity == null);
+    var recordWithoutCommodity =
+        records.where((r) => r.commodity == null).firstOrNull;
     if (recordWithoutCommodity != null) {
       var balancing = records.fold(
         0.0,
