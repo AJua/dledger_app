@@ -5,6 +5,8 @@ class AccountRecord {
   final Account account;
   Commodity? commodity;
 
+  get primaryAccount => account.hierarchy[0].toLowerCase();
+
   AccountRecord(this.account, {this.commodity});
 
   @override

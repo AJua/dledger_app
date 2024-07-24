@@ -3,25 +3,12 @@ import 'package:dledger_lib/models/journal.dart';
 
 class IncomeStatementReporter {
   IncomeStatement getIncomeStatement(Journal journal) {
-    var transactions = journal.transactions;
+    Iterable<AccountRecord> totalRecords = journal.transactions.fold(
+        [], (records, transaction) => [...records, ...transaction.records]);
     return IncomeStatement(
       statementDate: DateTime(1),
-      incomes: transactions.fold(
-        [],
-        (incomes, transaction) => [
-          ...incomes,
-          ...transaction.records
-              .where((r) => r.account.hierarchy[0] == 'income')
-        ],
-      ),
-      expenses: transactions.fold(
-        [],
-        (incomes, transaction) => [
-          ...incomes,
-          ...transaction.records
-              .where((r) => r.account.hierarchy[0] == 'expenses')
-        ],
-      ),
+      incomes: totalRecords.where((r) => r.primaryAccount == 'income'),
+      expenses: totalRecords.where((r) => r.primaryAccount == 'expenses'),
     );
   }
 }
