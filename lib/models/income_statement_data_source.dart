@@ -8,9 +8,9 @@ import 'income_statement.dart';
 class IncomeStatementDataSource extends DataGridSource {
   IncomeStatementDataSource({required IncomeStatement incomeStatement}) {
     _columns = [
-      _gridColumn('account'),
+      _gridColumn('account', ''),
       ...incomeStatement.expenses.entries.first.value.keys
-          .map((key) => _gridColumn(key))
+          .map((key) => _gridColumn(key, key))
     ];
 
     _rows = incomeStatement.expenses.entries
@@ -34,16 +34,15 @@ class IncomeStatementDataSource extends DataGridSource {
     );
   }
 
-  GridColumn _gridColumn(String name) {
+  GridColumn _gridColumn(String name, String value) {
     return GridColumn(
         columnName: name,
         label: Container(
             padding: const EdgeInsets.symmetric(vertical: 4.0, horizontal: 8.0),
             alignment: Alignment.center,
             child: Text(
-              name,
+              value,
               style: GoogleFonts.robotoMono(),
-              overflow: TextOverflow.ellipsis,
             )));
   }
 
@@ -63,12 +62,25 @@ class IncomeStatementDataSource extends DataGridSource {
         alignment: e.columnName == 'account'
             ? Alignment.centerLeft
             : Alignment.centerRight,
-        padding: const EdgeInsets.symmetric(vertical: 4.0, horizontal: 8.0),
+        padding: const EdgeInsets.symmetric(vertical: 4.0, horizontal: 4.0),
         child: Text(
           e.value.toString(),
           style: GoogleFonts.robotoMono(),
+          softWrap: false,
         ),
       );
     }).toList());
+  }
+
+  @override
+  Widget? buildTableSummaryCellWidget(
+      GridTableSummaryRow summaryRow,
+      GridSummaryColumn? summaryColumn,
+      RowColumnIndex rowColumnIndex,
+      String summaryValue) {
+    return Container(
+      padding: EdgeInsets.all(4.0),
+      child: Text(summaryValue),
+    );
   }
 }

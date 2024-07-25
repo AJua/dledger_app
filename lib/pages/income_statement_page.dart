@@ -28,15 +28,29 @@ class _IncomeStatementPageState extends State<IncomeStatementPage> {
       appBar: AppBar(
         title: const Text('Syncfusion Flutter DataGrid'),
       ),
-      body: SfDataGrid(
-        source: dataSource,
-        headerRowHeight: 36,
-        rowHeight: 36,
-        columnWidthMode: ColumnWidthMode.auto,
-        gridLinesVisibility: GridLinesVisibility.horizontal,
-        frozenRowsCount: 0,
-        frozenColumnsCount: 1,
-        columns: dataSource.columns,
+      body: SafeArea(
+        child: SfDataGrid(
+          source: dataSource,
+          headerRowHeight: 36,
+          rowHeight: 36,
+          columnWidthMode: ColumnWidthMode.fitByCellValue,
+          gridLinesVisibility: GridLinesVisibility.none,
+          frozenRowsCount: 0,
+          frozenColumnsCount: 1,
+          columns: dataSource.columns,
+          tableSummaryRows: [
+            GridTableSummaryRow(
+                showSummaryInRow: true,
+                title: 'Total Salary: {Sum} for 20 employees',
+                columns: [
+                  GridSummaryColumn(
+                      name: 'Sum',
+                      columnName: 'salary',
+                      summaryType: GridSummaryType.sum)
+                ],
+                position: GridTableSummaryRowPosition.bottom)
+          ],
+        ),
       ),
     );
   }
