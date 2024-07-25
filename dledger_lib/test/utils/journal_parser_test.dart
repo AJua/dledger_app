@@ -61,19 +61,19 @@ void main() {
       var parser = JournalParser();
       var commodity = parser.parseCommodity('100.00 TWD');
       expect(commodity!.amount, 100);
-      expect(commodity!.unit, 'TWD');
+      expect(commodity.unit, 'TWD');
     });
     test('input value is negative', () {
       var parser = JournalParser();
       var commodity = parser.parseCommodity('-5,000 YEN');
       expect(commodity!.amount, -5000);
-      expect(commodity!.unit, 'YEN');
+      expect(commodity.unit, 'YEN');
     });
     test('input value contains dollar symbol', () {
       var parser = JournalParser();
       var commodity = parser.parseCommodity('\$1');
       expect(commodity!.amount, 1);
-      expect(commodity!.unit, r'$');
+      expect(commodity.unit, r'$');
     });
   });
 }

@@ -30,7 +30,7 @@ class EmployeeDataSource extends DataGridSource {
         cells: row.getCells().map<Widget>((e) {
       return Container(
         alignment: Alignment.centerLeft,
-        padding: EdgeInsets.all(8.0),
+        padding: const EdgeInsets.all(8.0),
         child: Text(e.value.toString()),
       );
     }).toList());

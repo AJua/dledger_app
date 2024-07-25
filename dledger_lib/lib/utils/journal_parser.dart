@@ -12,7 +12,7 @@ class JournalParser {
     journalText.split('\n').forEach((lineText) {
       var commentRegex = RegExp(r'(.*);.*');
       var firstMatch = commentRegex.firstMatch(lineText);
-      var input = (firstMatch == null) ? lineText : firstMatch![1]!;
+      var input = (firstMatch == null) ? lineText : firstMatch[1]!;
 
       var emptyRegex = RegExp(r'^\s*$');
       if (emptyRegex.firstMatch(input) != null) {
@@ -62,7 +62,7 @@ class JournalParser {
           ? records
           : [
               recordWithoutCommodity,
-              ...records.where((r) => r.commodity != null).toList()
+              ...records.where((r) => r.commodity != null)
             ],
       description: firstMath[2]!.trim(),
     );

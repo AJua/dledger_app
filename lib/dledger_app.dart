@@ -11,7 +11,7 @@ class DLedgerApp extends StatelessWidget {
     return MaterialApp(
       title: 'Syncfusion DataGrid Demo',
       theme: ThemeData(useMaterial3: false),
-      home: MyHomePage(),
+      home: const MyHomePage(),
     );
   }
 }
