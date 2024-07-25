@@ -9,7 +9,7 @@ class IncomeStatementPage extends StatefulWidget {
   const IncomeStatementPage({super.key});
 
   @override
-  _IncomeStatementPageState createState() => _IncomeStatementPageState();
+  State<IncomeStatementPage> createState() => _IncomeStatementPageState();
 }
 
 class _IncomeStatementPageState extends State<IncomeStatementPage> {
@@ -43,7 +43,7 @@ class _IncomeStatementPageState extends State<IncomeStatementPage> {
                 showSummaryInRow: true,
                 title: 'Total Salary: {Sum} for 20 employees',
                 columns: [
-                  GridSummaryColumn(
+                  const GridSummaryColumn(
                       name: 'Sum',
                       columnName: 'salary',
                       summaryType: GridSummaryType.sum)

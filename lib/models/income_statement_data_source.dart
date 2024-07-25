@@ -79,7 +79,7 @@ class IncomeStatementDataSource extends DataGridSource {
       RowColumnIndex rowColumnIndex,
       String summaryValue) {
     return Container(
-      padding: EdgeInsets.all(4.0),
+      padding: const EdgeInsets.all(4.0),
       child: Text(summaryValue),
     );
   }

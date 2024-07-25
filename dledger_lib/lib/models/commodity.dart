@@ -10,7 +10,6 @@ class Commodity {
     return 'Commodity("amount": $amount, "unit": $unit, "cost": $cost)';
   }
 
-  @override
   Commodity operator +(Commodity other) {
     // TODO: implement ==
     if (unit != other.unit) {
