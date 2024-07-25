@@ -9,7 +9,8 @@ class DLedgerApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Syncfusion DataGrid Demo',
+      key: const Key('dledger-app'),
+      title: 'dledger-app',
       theme: ThemeData(useMaterial3: false),
       home: const MyHomePage(),
     );
