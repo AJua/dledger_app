@@ -30,9 +30,6 @@ jobs:
 
       - run: flutter --version
 
-      - name: Display flutter info
-        run: flutter doctor
-
       - name: Install dependencies
         run: dart pub get
 
@@ -50,7 +47,3 @@ jobs:
       - name: Run tests
         run: flutter test . --coverage
 
-      - name: Genearate coverage report
-        uses: romeovs/lcov-reporter-action@v0.3.1
-        with:
-          lcov-file: ./coverage/lcov.info
