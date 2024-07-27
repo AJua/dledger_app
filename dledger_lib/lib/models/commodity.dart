@@ -26,7 +26,7 @@ class Commodity extends Equatable {
   }
 
   @override
-  List<Object?> get props => [amount, unit];
+  List<Object?> get props => [amount, unit, position];
 }
 
 enum UnitPosition { left, right }

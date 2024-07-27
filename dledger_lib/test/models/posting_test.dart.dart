@@ -16,6 +16,6 @@ main() {
       const Commodity(2.0, 'TWD', UnitPosition.right),
     );
     var actual = p1 + p2;
-    expect(actual.commodity.amount, equals(3.0));
+    expect(actual.commodity, const Commodity(3.0, 'TWD', UnitPosition.right));
   });
 }
