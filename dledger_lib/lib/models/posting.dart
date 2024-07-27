@@ -15,4 +15,8 @@ class Posting {
   String toString() {
     return 'Posting("account": $account, "commodity": $commodity)';
   }
+
+  Posting operator +(Posting other) {
+    return Posting(date, account, commodity + other.commodity);
+  }
 }

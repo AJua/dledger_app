@@ -1,10 +1,12 @@
-class Commodity {
+import 'package:equatable/equatable.dart';
+
+class Commodity extends Equatable {
   final double amount;
   final String unit;
   final UnitPosition position;
   final Commodity? cost;
 
-  Commodity(this.amount, this.unit, this.position, {this.cost});
+  const Commodity(this.amount, this.unit, this.position, {this.cost});
 
   @override
   String toString() {
@@ -22,6 +24,9 @@ class Commodity {
     }
     return Commodity(amount + other.amount, unit, position);
   }
+
+  @override
+  List<Object?> get props => [amount, unit];
 }
 
 enum UnitPosition { left, right }

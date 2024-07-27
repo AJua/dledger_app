@@ -1,5 +1,7 @@
 import 'package:collection/collection.dart';
+import 'package:dledger_lib/models/commodity.dart';
 import 'package:dledger_lib/models/posting.dart';
+import 'package:intl/intl.dart';
 
 extension PostingsExtension on Iterable<Posting> {
   Map<String, List<Posting>> groupByAccount({required int depth}) {
@@ -9,5 +11,23 @@ extension PostingsExtension on Iterable<Posting> {
           .groupListsBy((r) => r.account.hierarchy[i]));
     }
     return map;
+  }
+
+  Map<String, Map<String, Commodity>> summarize() {
+    var m2 = groupFoldBy<String, Map<String, Commodity>>(
+        (p) => p.account.hierarchy.join(':'), (previous, posting) {
+      final DateFormat formatter = DateFormat('yyyy-MM-dd');
+      var key = formatter.format(posting.date);
+      if (previous == null) {
+        return {key: posting.commodity};
+      }
+      if (previous.containsKey(key)) {
+        previous[key] = previous[key]! + posting.commodity;
+      } else {
+        previous[key] = posting.commodity;
+      }
+      return previous;
+    });
+    return m2;
   }
 }
