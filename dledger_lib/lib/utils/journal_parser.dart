@@ -41,7 +41,7 @@ class JournalParser {
   Transaction parseTransaction(List<String> txnText) {
     var transactionRexExp = RegExp(r'^(\S+)\s+(.*)');
     var firstMath = transactionRexExp.firstMatch(txnText[0])!;
-    var records = txnText.sublist(1).map((t) => parseRecord(t));
+    var records = txnText.sublist(1).map((t) => parsePosting(t));
     var recordWithoutCommodity =
         records.where((r) => r.commodity == null).firstOrNull;
     if (recordWithoutCommodity != null) {
@@ -68,7 +68,7 @@ class JournalParser {
     );
   }
 
-  Posting parseRecord(String recordText) {
+  Posting parsePosting(String recordText) {
     var accountRegExp = RegExp(r'^\s+([\ \w:]+\w)\s{2,}(.*)');
     var firstMatch = accountRegExp.firstMatch(recordText)!;
 

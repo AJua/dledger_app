@@ -49,12 +49,20 @@ void main() {
     var account = parser.parseAccount('Assets:Cash');
     expect(account.category, 'Assets');
   });
-  test('parseRecord', () {
-    var parser = JournalParser();
-    var record = parser.parseRecord('  Assets:Cash   100.00 TWD');
-    expect(record.account.hierarchy.join(','), ['Assets', 'Cash'].join(','));
-    expect(record.commodity!.amount, 100);
-    expect(record.commodity!.unit, 'TWD');
+  group('parsePosting', () {
+    test('postingWithCommodity', () {
+      var parser = JournalParser();
+      var record = parser.parsePosting('  Assets:Cash   100.00 TWD');
+      expect(record.account.hierarchy.join(','), ['Assets', 'Cash'].join(','));
+      expect(record.commodity!.amount, 100);
+      expect(record.commodity!.unit, 'TWD');
+    });
+    test('postingWithoutCommodity', () {
+      var parser = JournalParser();
+      var record = parser.parsePosting('  Assets:Cash   ');
+      expect(record.account.hierarchy.join(','), ['Assets', 'Cash'].join(','));
+      expect(record.commodity, isNull);
+    });
   });
   group('parseCommodity', () {
     test('input value include ISO currency', () {
