@@ -57,13 +57,10 @@ class JournalParser {
     if (postingDtoWithoutCommodity != null) {
       var balancing = postings.fold(
         0.0,
-        (previousValue, record) =>
-            previousValue + (record.commodity.amount ?? 0.0),
+        (previousValue, record) => previousValue + (record.commodity.amount),
       );
-      var unit = postings
-          .firstWhere((r) => r.commodity.cost == null)
-          .commodity
-          .unit;
+      var unit =
+          postings.firstWhere((r) => r.commodity.cost == null).commodity.unit;
       postingDtoWithoutCommodity.commodity = Commodity(0.0 - balancing, unit);
 
       postings.add(Posting(postingDtoWithoutCommodity.account,
