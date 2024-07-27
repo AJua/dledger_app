@@ -42,13 +42,16 @@ class JournalParser {
   Transaction parseTransaction(List<String> txnText) {
     var transactionRexExp = RegExp(r'^(\S+)\s+(.*)');
     var firstMath = transactionRexExp.firstMatch(txnText[0])!;
+    var date = DateTime.parse(firstMath[1]!);
+    var description = firstMath[2]!.trim();
 
     List<Posting> postings = [];
     PostingDto? postingDtoWithoutCommodity;
     for (int i = 1; i < txnText.length; i++) {
       var postingDto = parsePosting(txnText[i]);
       if (postingDto.commodity != null) {
-        postings.add(Posting(postingDto.account, postingDto.commodity!));
+        postings.add(Posting(date, postingDto.account, postingDto.commodity!,
+            description: description));
       } else {
         postingDtoWithoutCommodity = postingDto;
       }
@@ -63,13 +66,14 @@ class JournalParser {
           postings.firstWhere((r) => r.commodity.cost == null).commodity.unit;
       postingDtoWithoutCommodity.commodity = Commodity(0.0 - balancing, unit);
 
-      postings.add(Posting(postingDtoWithoutCommodity.account,
-          Commodity(0.0 - balancing, unit)));
+      postings.add(Posting(date, postingDtoWithoutCommodity.account,
+          Commodity(0.0 - balancing, unit),
+          description: description));
     }
     return Transaction(
-      DateTime.parse(firstMath[1]!),
+      date,
       postings,
-      description: firstMath[2]!.trim(),
+      description: description,
     );
   }
 

@@ -7,14 +7,17 @@ import 'package:flutter_test/flutter_test.dart';
 main() {
   var testingRecords = [
     Posting(
+      DateTime(2024, 7, 28),
       Account(['expenses', 'interests', 'movies']),
       Commodity(250, 'TWD'),
     ),
     Posting(
+      DateTime(2024, 7, 28),
       Account(['expenses', 'interests', 'books']),
       Commodity(500, 'TWD'),
     ),
     Posting(
+      DateTime(2024, 7, 28),
       Account(['expenses', 'rent']),
       Commodity(12000, 'TWD'),
     ),
@@ -34,8 +37,7 @@ main() {
         actual['interests']!
             .fold(0.0, (total, a) => total + a.commodity.amount),
         equals(750));
-    expect(
-        actual['books']!.fold(0.0, (total, a) => total + a.commodity.amount),
+    expect(actual['books']!.fold(0.0, (total, a) => total + a.commodity.amount),
         equals(500));
   });
 }
