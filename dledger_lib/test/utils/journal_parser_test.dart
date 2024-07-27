@@ -40,7 +40,7 @@ void main() {
     expect(transaction.records.length, 3);
     expect(
       transaction.records
-          .fold(0.0, (sumUp, record) => sumUp + record.commodity!.amount),
+          .fold(0.0, (sumUp, record) => sumUp + record.commodity.amount),
       0,
     );
   });

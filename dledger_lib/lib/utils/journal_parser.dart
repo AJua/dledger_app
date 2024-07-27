@@ -4,6 +4,7 @@ import 'package:dledger_lib/models/transaction.dart';
 
 import '../models/account.dart';
 import '../models/posting.dart';
+import '../models/posting_dto.dart';
 
 class JournalParser {
   Journal parseJournal(String journalText) {
@@ -41,41 +42,48 @@ class JournalParser {
   Transaction parseTransaction(List<String> txnText) {
     var transactionRexExp = RegExp(r'^(\S+)\s+(.*)');
     var firstMath = transactionRexExp.firstMatch(txnText[0])!;
-    var records = txnText.sublist(1).map((t) => parsePosting(t));
-    var recordWithoutCommodity =
-        records.where((r) => r.commodity == null).firstOrNull;
-    if (recordWithoutCommodity != null) {
-      var balancing = records.fold(
+
+    List<Posting> postings = [];
+    PostingDto? postingDtoWithoutCommodity;
+    for (int i = 1; i < txnText.length; i++) {
+      var postingDto = parsePosting(txnText[i]);
+      if (postingDto.commodity != null) {
+        postings.add(Posting(postingDto.account, postingDto.commodity!));
+      } else {
+        postingDtoWithoutCommodity = postingDto;
+      }
+    }
+
+    if (postingDtoWithoutCommodity != null) {
+      var balancing = postings.fold(
         0.0,
         (previousValue, record) =>
-            previousValue + (record.commodity?.amount ?? 0.0),
+            previousValue + (record.commodity.amount ?? 0.0),
       );
-      var unit = records
-          .firstWhere((r) => r.commodity != null && r.commodity!.cost == null)
-          .commodity!
+      var unit = postings
+          .firstWhere((r) => r.commodity.cost == null)
+          .commodity
           .unit;
-      recordWithoutCommodity.commodity = Commodity(0.0 - balancing, unit);
+      postingDtoWithoutCommodity.commodity = Commodity(0.0 - balancing, unit);
+
+      postings.add(Posting(postingDtoWithoutCommodity.account,
+          Commodity(0.0 - balancing, unit)));
     }
     return Transaction(
       DateTime.parse(firstMath[1]!),
-      recordWithoutCommodity == null
-          ? records
-          : [
-              recordWithoutCommodity,
-              ...records.where((r) => r.commodity != null)
-            ],
+      postings,
       description: firstMath[2]!.trim(),
     );
   }
 
-  Posting parsePosting(String recordText) {
+  PostingDto parsePosting(String recordText) {
     var accountRegExp = RegExp(r'^\s+([\ \w:]+\w)\s{2,}(.*)');
     var firstMatch = accountRegExp.firstMatch(recordText)!;
 
     var accountText = firstMatch[1]!;
     var commodityText = firstMatch[2]!;
 
-    return Posting(parseAccount(accountText),
+    return PostingDto(parseAccount(accountText),
         commodity: parseCommodity(commodityText));
   }
 

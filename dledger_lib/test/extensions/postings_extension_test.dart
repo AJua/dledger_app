@@ -8,15 +8,15 @@ main() {
   var testingRecords = [
     Posting(
       Account(['expenses', 'interests', 'movies']),
-      commodity: Commodity(250, 'TWD'),
+      Commodity(250, 'TWD'),
     ),
     Posting(
       Account(['expenses', 'interests', 'books']),
-      commodity: Commodity(500, 'TWD'),
+      Commodity(500, 'TWD'),
     ),
     Posting(
       Account(['expenses', 'rent']),
-      commodity: Commodity(12000, 'TWD'),
+      Commodity(12000, 'TWD'),
     ),
   ];
   test('group by account with depth=1', () {
@@ -24,7 +24,7 @@ main() {
     expect(actual.keys, equals(['interests', 'rent']));
     expect(
         actual['interests']!
-            .fold(0.0, (total, a) => total + a.commodity!.amount),
+            .fold(0.0, (total, a) => total + a.commodity.amount),
         equals(750));
   });
   test('group by account with depth=2', () {
@@ -32,10 +32,10 @@ main() {
     expect(actual.keys, equals(['interests', 'rent', 'movies', 'books']));
     expect(
         actual['interests']!
-            .fold(0.0, (total, a) => total + a.commodity!.amount),
+            .fold(0.0, (total, a) => total + a.commodity.amount),
         equals(750));
     expect(
-        actual['books']!.fold(0.0, (total, a) => total + a.commodity!.amount),
+        actual['books']!.fold(0.0, (total, a) => total + a.commodity.amount),
         equals(500));
   });
 }

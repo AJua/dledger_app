@@ -1,13 +1,13 @@
 import './account.dart';
 import './commodity.dart';
 
-class Posting {
+class PostingDto {
   final Account account;
-  final Commodity commodity;
+  Commodity? commodity;
 
   get primaryAccount => account.hierarchy[0].toLowerCase();
 
-  Posting(this.account, this.commodity);
+  PostingDto(this.account, {this.commodity});
 
   @override
   String toString() {
