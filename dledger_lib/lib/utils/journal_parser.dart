@@ -3,7 +3,7 @@ import 'package:dledger_lib/models/journal.dart';
 import 'package:dledger_lib/models/transaction.dart';
 
 import '../models/account.dart';
-import '../models/account_record.dart';
+import '../models/posting.dart';
 
 class JournalParser {
   Journal parseJournal(String journalText) {
@@ -68,14 +68,14 @@ class JournalParser {
     );
   }
 
-  AccountRecord parseRecord(String recordText) {
+  Posting parseRecord(String recordText) {
     var accountRegExp = RegExp(r'^\s+([\ \w:]+\w)\s{2,}(.*)');
     var firstMatch = accountRegExp.firstMatch(recordText)!;
 
     var accountText = firstMatch[1]!;
     var commodityText = firstMatch[2]!;
 
-    return AccountRecord(parseAccount(accountText),
+    return Posting(parseAccount(accountText),
         commodity: parseCommodity(commodityText));
   }
 

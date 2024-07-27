@@ -1,20 +1,20 @@
 import 'package:dledger_lib/extensions/records_extension.dart';
 import 'package:dledger_lib/models/account.dart';
-import 'package:dledger_lib/models/account_record.dart';
 import 'package:dledger_lib/models/commodity.dart';
+import 'package:dledger_lib/models/posting.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 main() {
   var testingRecords = [
-    AccountRecord(
+    Posting(
       Account(['expenses', 'interests', 'movies']),
       commodity: Commodity(250, 'TWD'),
     ),
-    AccountRecord(
+    Posting(
       Account(['expenses', 'interests', 'books']),
       commodity: Commodity(500, 'TWD'),
     ),
-    AccountRecord(
+    Posting(
       Account(['expenses', 'rent']),
       commodity: Commodity(12000, 'TWD'),
     ),

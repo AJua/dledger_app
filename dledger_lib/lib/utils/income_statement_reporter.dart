@@ -1,9 +1,9 @@
-import 'package:dledger_lib/models/account_record.dart';
 import 'package:dledger_lib/models/journal.dart';
+import 'package:dledger_lib/models/posting.dart';
 
 class IncomeStatementReporter {
   IncomeStatement getIncomeStatement(Journal journal) {
-    Iterable<AccountRecord> totalRecords = journal.transactions.fold(
+    Iterable<Posting> totalRecords = journal.transactions.fold(
         [], (records, transaction) => [...records, ...transaction.records]);
     return IncomeStatement(
       statementDate: DateTime(1),
@@ -15,8 +15,8 @@ class IncomeStatementReporter {
 
 class IncomeStatement {
   DateTime statementDate;
-  Iterable<AccountRecord> incomes;
-  Iterable<AccountRecord> expenses;
+  Iterable<Posting> incomes;
+  Iterable<Posting> expenses;
 
   IncomeStatement(
       {required this.statementDate,

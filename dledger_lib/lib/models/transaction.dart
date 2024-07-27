@@ -1,9 +1,9 @@
-import 'account_record.dart';
+import 'posting.dart';
 
 class Transaction {
   DateTime date;
   String? description;
-  Iterable<AccountRecord> records;
+  Iterable<Posting> records;
 
   Transaction(this.date, this.records, {this.description});
 }
