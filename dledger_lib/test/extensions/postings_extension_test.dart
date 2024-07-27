@@ -9,17 +9,17 @@ main() {
     Posting(
       DateTime(2024, 7, 28),
       Account(['expenses', 'interests', 'movies']),
-      Commodity(250, 'TWD'),
+      Commodity(250, 'TWD', UnitPosition.right),
     ),
     Posting(
       DateTime(2024, 7, 28),
       Account(['expenses', 'interests', 'books']),
-      Commodity(500, 'TWD'),
+      Commodity(500, 'TWD', UnitPosition.right),
     ),
     Posting(
       DateTime(2024, 7, 28),
       Account(['expenses', 'rent']),
-      Commodity(12000, 'TWD'),
+      Commodity(12000, 'TWD', UnitPosition.right),
     ),
   ];
   test('group by account with depth=1', () {

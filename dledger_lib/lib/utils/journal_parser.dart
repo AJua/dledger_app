@@ -62,12 +62,10 @@ class JournalParser {
         0.0,
         (previousValue, record) => previousValue + (record.commodity.amount),
       );
-      var unit =
-          postings.firstWhere((r) => r.commodity.cost == null).commodity.unit;
-      postingDtoWithoutCommodity.commodity = Commodity(0.0 - balancing, unit);
+      var sample = postings.first.commodity;
 
       postings.add(Posting(date, postingDtoWithoutCommodity.account,
-          Commodity(0.0 - balancing, unit),
+          Commodity(0.0 - balancing, sample.unit, sample.position),
           description: description));
     }
     return Transaction(
@@ -102,7 +100,8 @@ class JournalParser {
     var symbolMatch = symbolExp.firstMatch(commodityText);
     if (symbolMatch != null) {
       var amountText1 = symbolMatch[2]!.replaceAll(',', '');
-      return Commodity(double.parse(amountText1), symbolMatch[1]!);
+      return Commodity(
+          double.parse(amountText1), symbolMatch[1]!, UnitPosition.left);
     }
 
     /// 100.00 TWD
@@ -111,6 +110,6 @@ class JournalParser {
 
     var amountText2 = firstMatch![1]!.replaceAll(',', '');
     var unitText = firstMatch[2]!;
-    return Commodity(double.parse(amountText2), unitText);
+    return Commodity(double.parse(amountText2), unitText, UnitPosition.right);
   }
 }
