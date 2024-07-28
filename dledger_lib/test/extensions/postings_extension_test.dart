@@ -43,72 +43,98 @@ main() {
           equals(500));
     });
   });
-  test('summarize', () {
-    var someAccount = const Account(['expenses', 'interests', 'movies']);
-    var testingRecords = [
-      Posting(
-        DateTime(2024, 7, 28),
-        someAccount,
-        const Commodity(250, 'TWD', UnitPosition.right),
-      ),
-    ];
-    var actual = testingRecords.summarize();
-    expect(
-        actual,
-        equals({
-          someAccount: {
-            '2024-07-28': const Commodity(250, 'TWD', UnitPosition.right)
-          }
-        }));
-  });
-  test('summarize', () {
-    var someAccount = const Account(['expenses', 'interests', 'movies']);
-    var testingRecords = [
-      Posting(
-        DateTime(2024, 7, 28),
-        someAccount,
-        const Commodity(250, 'TWD', UnitPosition.right),
-      ),
-      Posting(
-        DateTime(2024, 7, 28),
-        someAccount,
-        const Commodity(250, 'TWD', UnitPosition.right),
-      ),
-    ];
-    var actual = testingRecords.summarize();
-    expect(
-        actual,
-        equals({
-          someAccount: {
-            '2024-07-28': const Commodity(500, 'TWD', UnitPosition.right)
-          }
-        }));
-  });
-  test('summarize', () {
-    var someAccount = const Account(['expenses', 'interests', 'movies']);
-    var anotherAccount = const Account(['expenses', 'interests', 'music']);
-    var testingRecords = [
-      Posting(
-        DateTime(2024, 7, 28),
-        someAccount,
-        const Commodity(250, 'TWD', UnitPosition.right),
-      ),
-      Posting(
-        DateTime(2024, 7, 28),
-        anotherAccount,
-        const Commodity(150, 'TWD', UnitPosition.right),
-      ),
-    ];
-    var actual = testingRecords.summarize();
-    expect(
-        actual,
-        equals({
-          someAccount: {
-            '2024-07-28': const Commodity(250, 'TWD', UnitPosition.right)
-          },
-          anotherAccount: {
-            '2024-07-28': const Commodity(150, 'TWD', UnitPosition.right)
-          }
-        }));
+  group('summarize', () {
+    test('summarize', () {
+      var someAccount = const Account(['expenses', 'interests', 'movies']);
+      var testingRecords = [
+        Posting(
+          DateTime(2024, 7, 28),
+          someAccount,
+          const Commodity(250, 'TWD', UnitPosition.right),
+        ),
+      ];
+      var actual = testingRecords.summarize();
+      expect(
+          actual,
+          equals({
+            someAccount: {
+              '2024-07-28': const Commodity(250, 'TWD', UnitPosition.right)
+            }
+          }));
+    });
+    test('summarize', () {
+      var someAccount = const Account(['expenses', 'interests', 'movies']);
+      var testingRecords = [
+        Posting(
+          DateTime(2024, 7, 28),
+          someAccount,
+          const Commodity(250, 'TWD', UnitPosition.right),
+        ),
+        Posting(
+          DateTime(2024, 7, 28),
+          someAccount,
+          const Commodity(250, 'TWD', UnitPosition.right),
+        ),
+      ];
+      var actual = testingRecords.summarize();
+      expect(
+          actual,
+          equals({
+            someAccount: {
+              '2024-07-28': const Commodity(500, 'TWD', UnitPosition.right)
+            }
+          }));
+    });
+    test('summarize', () {
+      var someAccount = const Account(['expenses', 'interests', 'movies']);
+      var testingRecords = [
+        Posting(
+          DateTime(2024, 7, 28),
+          someAccount,
+          const Commodity(250, 'TWD', UnitPosition.right),
+        ),
+        Posting(
+          DateTime(2024, 7, 29),
+          someAccount,
+          const Commodity(250, 'TWD', UnitPosition.right),
+        ),
+      ];
+      var actual = testingRecords.summarize();
+      expect(
+          actual,
+          equals({
+            someAccount: {
+              '2024-07-28': const Commodity(250, 'TWD', UnitPosition.right),
+              '2024-07-29': const Commodity(250, 'TWD', UnitPosition.right),
+            }
+          }));
+    });
+    test('summarize', () {
+      var someAccount = const Account(['expenses', 'interests', 'movies']);
+      var anotherAccount = const Account(['expenses', 'interests', 'music']);
+      var testingRecords = [
+        Posting(
+          DateTime(2024, 7, 28),
+          someAccount,
+          const Commodity(250, 'TWD', UnitPosition.right),
+        ),
+        Posting(
+          DateTime(2024, 7, 28),
+          anotherAccount,
+          const Commodity(150, 'TWD', UnitPosition.right),
+        ),
+      ];
+      var actual = testingRecords.summarize();
+      expect(
+          actual,
+          equals({
+            someAccount: {
+              '2024-07-28': const Commodity(250, 'TWD', UnitPosition.right)
+            },
+            anotherAccount: {
+              '2024-07-28': const Commodity(150, 'TWD', UnitPosition.right)
+            }
+          }));
+    });
   });
 }

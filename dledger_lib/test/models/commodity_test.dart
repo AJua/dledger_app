@@ -14,4 +14,9 @@ main() {
 
     expect(() => c1 + c2, throwsException);
   });
+  test('string format', () {
+    expect(const Commodity(1, r'$', UnitPosition.left).amountFormat(), r'$1.0');
+    expect(const Commodity(1, r'USD', UnitPosition.right).amountFormat(),
+        r'1.0 USD');
+  });
 }
