@@ -7,12 +7,12 @@ main() {
   test('commodity with same unit', () {
     var p1 = Posting(
       DateTime(2024, 7, 25),
-      Account(['expenses']),
+      const Account(['expenses']),
       const Commodity(1.0, 'TWD', UnitPosition.right),
     );
     var p2 = Posting(
       DateTime(2024, 7, 25),
-      Account(['expenses']),
+      const Account(['expenses']),
       const Commodity(2.0, 'TWD', UnitPosition.right),
     );
     var actual = p1 + p2;

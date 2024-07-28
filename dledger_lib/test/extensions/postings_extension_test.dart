@@ -9,17 +9,17 @@ main() {
     var testingRecords = [
       Posting(
         DateTime(2024, 7, 28),
-        Account(['expenses', 'interests', 'movies']),
+        const Account(['expenses', 'interests', 'movies']),
         const Commodity(250, 'TWD', UnitPosition.right),
       ),
       Posting(
         DateTime(2024, 7, 28),
-        Account(['expenses', 'interests', 'books']),
+        const Account(['expenses', 'interests', 'books']),
         const Commodity(500, 'TWD', UnitPosition.right),
       ),
       Posting(
         DateTime(2024, 7, 28),
-        Account(['expenses', 'rent']),
+        const Account(['expenses', 'rent']),
         const Commodity(12000, 'TWD', UnitPosition.right),
       ),
     ];
@@ -47,7 +47,7 @@ main() {
     var testingRecords = [
       Posting(
         DateTime(2024, 7, 28),
-        Account(['expenses', 'interests', 'movies']),
+        const Account(['expenses', 'interests', 'movies']),
         const Commodity(250, 'TWD', UnitPosition.right),
       ),
     ];
@@ -64,12 +64,12 @@ main() {
     var testingRecords = [
       Posting(
         DateTime(2024, 7, 28),
-        Account(['expenses', 'interests', 'movies']),
+        const Account(['expenses', 'interests', 'movies']),
         const Commodity(250, 'TWD', UnitPosition.right),
       ),
       Posting(
         DateTime(2024, 7, 28),
-        Account(['expenses', 'interests', 'movies']),
+        const Account(['expenses', 'interests', 'movies']),
         const Commodity(250, 'TWD', UnitPosition.right),
       ),
     ];
@@ -86,12 +86,12 @@ main() {
     var testingRecords = [
       Posting(
         DateTime(2024, 7, 28),
-        Account(['expenses', 'interests', 'movies']),
+        const Account(['expenses', 'interests', 'movies']),
         const Commodity(250, 'TWD', UnitPosition.right),
       ),
       Posting(
         DateTime(2024, 7, 28),
-        Account(['expenses', 'interests', 'music']),
+        const Account(['expenses', 'interests', 'music']),
         const Commodity(150, 'TWD', UnitPosition.right),
       ),
     ];
