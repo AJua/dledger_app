@@ -1,4 +1,4 @@
-import 'package:dledger_lib/extensions/records_extension.dart';
+import 'package:dledger_lib/extensions/postings_extension.dart';
 import 'package:dledger_lib/models/account.dart';
 import 'package:dledger_lib/models/commodity.dart';
 import 'package:dledger_lib/models/posting.dart';
@@ -44,10 +44,11 @@ main() {
     });
   });
   test('summarize', () {
+    const someAccount = const Account(['expenses', 'interests', 'movies']);
     var testingRecords = [
       Posting(
         DateTime(2024, 7, 28),
-        const Account(['expenses', 'interests', 'movies']),
+        someAccount,
         const Commodity(250, 'TWD', UnitPosition.right),
       ),
     ];
@@ -55,21 +56,22 @@ main() {
     expect(
         actual,
         equals({
-          'expenses:interests:movies': {
+          someAccount: {
             '2024-07-28': const Commodity(250, 'TWD', UnitPosition.right)
           }
         }));
   });
   test('summarize', () {
+    var someAccount = const Account(['expenses', 'interests', 'movies']);
     var testingRecords = [
       Posting(
         DateTime(2024, 7, 28),
-        const Account(['expenses', 'interests', 'movies']),
+        someAccount,
         const Commodity(250, 'TWD', UnitPosition.right),
       ),
       Posting(
         DateTime(2024, 7, 28),
-        const Account(['expenses', 'interests', 'movies']),
+        someAccount,
         const Commodity(250, 'TWD', UnitPosition.right),
       ),
     ];
@@ -77,21 +79,23 @@ main() {
     expect(
         actual,
         equals({
-          'expenses:interests:movies': {
+          someAccount: {
             '2024-07-28': const Commodity(500, 'TWD', UnitPosition.right)
           }
         }));
   });
   test('summarize', () {
+    var someAccount = const Account(['expenses', 'interests', 'movies']);
+    var anotherAccount = const Account(['expenses', 'interests', 'music']);
     var testingRecords = [
       Posting(
         DateTime(2024, 7, 28),
-        const Account(['expenses', 'interests', 'movies']),
+        someAccount,
         const Commodity(250, 'TWD', UnitPosition.right),
       ),
       Posting(
         DateTime(2024, 7, 28),
-        const Account(['expenses', 'interests', 'music']),
+        anotherAccount,
         const Commodity(150, 'TWD', UnitPosition.right),
       ),
     ];
@@ -99,10 +103,10 @@ main() {
     expect(
         actual,
         equals({
-          'expenses:interests:movies': {
+          someAccount: {
             '2024-07-28': const Commodity(250, 'TWD', UnitPosition.right)
           },
-          'expenses:interests:music': {
+          anotherAccount: {
             '2024-07-28': const Commodity(150, 'TWD', UnitPosition.right)
           }
         }));
