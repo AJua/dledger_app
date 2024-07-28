@@ -44,7 +44,7 @@ main() {
     });
   });
   group('summarize', () {
-    test('summarize', () {
+    test('1 account and 1 posting', () {
       var someAccount = const Account(['expenses', 'interests', 'movies']);
       var testingRecords = [
         Posting(
@@ -62,7 +62,7 @@ main() {
             }
           }));
     });
-    test('summarize', () {
+    test('1 account and 2 posting on the same day', () {
       var someAccount = const Account(['expenses', 'interests', 'movies']);
       var testingRecords = [
         Posting(
@@ -85,7 +85,7 @@ main() {
             }
           }));
     });
-    test('summarize', () {
+    test('1 account and 2 posting on the different day', () {
       var someAccount = const Account(['expenses', 'interests', 'movies']);
       var testingRecords = [
         Posting(
@@ -109,7 +109,7 @@ main() {
             }
           }));
     });
-    test('summarize', () {
+    test('2 accounts on  the same day', () {
       var someAccount = const Account(['expenses', 'interests', 'movies']);
       var anotherAccount = const Account(['expenses', 'interests', 'music']);
       var testingRecords = [
@@ -133,6 +133,33 @@ main() {
             },
             anotherAccount: {
               '2024-07-28': const Commodity(150, 'TWD', UnitPosition.right)
+            }
+          }));
+    });
+    test('2 accounts on the same day', () {
+      var someAccount = const Account(['expenses', 'interests', 'movies']);
+      var anotherAccount = const Account(['expenses', 'interests', 'music']);
+      var testingRecords = [
+        Posting(
+          DateTime(2024, 7, 28),
+          someAccount,
+          const Commodity(250, 'TWD', UnitPosition.right),
+        ),
+        Posting(
+          DateTime(2024, 7, 29),
+          anotherAccount,
+          const Commodity(150, 'TWD', UnitPosition.right),
+        ),
+      ];
+      var actual = testingRecords.summarize();
+      expect(
+          actual,
+          equals({
+            someAccount: {
+              '2024-07-28': const Commodity(250, 'TWD', UnitPosition.right)
+            },
+            anotherAccount: {
+              '2024-07-29': const Commodity(150, 'TWD', UnitPosition.right)
             }
           }));
     });
