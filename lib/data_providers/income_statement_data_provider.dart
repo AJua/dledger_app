@@ -3,9 +3,6 @@ import 'package:dledger_lib/models/commodity.dart';
 
 class IncomeStatementDataProvider {
   IncomeStatement get() {
-    var summary = {
-      const Account(['Expenses'])
-    };
     return IncomeStatement({}, {
       'car': {
         '2024-07-24': const Commodity(100, 'TWD', UnitPosition.right),
