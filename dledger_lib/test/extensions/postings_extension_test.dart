@@ -44,7 +44,7 @@ main() {
     });
   });
   test('summarize', () {
-    const someAccount = const Account(['expenses', 'interests', 'movies']);
+    var someAccount = const Account(['expenses', 'interests', 'movies']);
     var testingRecords = [
       Posting(
         DateTime(2024, 7, 28),

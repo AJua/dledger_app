@@ -10,13 +10,4 @@ class Posting {
   get primaryAccount => account.hierarchy[0].toLowerCase();
 
   Posting(this.date, this.account, this.commodity, {this.description});
-
-  @override
-  String toString() {
-    return 'Posting("account": $account, "commodity": $commodity)';
-  }
-
-  Posting operator +(Posting other) {
-    return Posting(date, account, commodity + other.commodity);
-  }
 }
