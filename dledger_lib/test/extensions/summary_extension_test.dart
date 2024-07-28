@@ -1,6 +1,4 @@
-import 'package:dledger_lib/extensions/summary_extension.dart';
-import 'package:dledger_lib/models/account.dart';
-import 'package:dledger_lib/models/commodity.dart';
+import 'package:dledger_lib/dledger_lib.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 main() {

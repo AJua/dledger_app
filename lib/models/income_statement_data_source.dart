@@ -1,4 +1,4 @@
-import 'package:dledger_lib/models/commodity.dart';
+import 'package:dledger_lib/dledger_lib.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:syncfusion_flutter_datagrid/datagrid.dart';
@@ -6,7 +6,7 @@ import 'package:syncfusion_flutter_datagrid/datagrid.dart';
 import 'income_statement.dart';
 
 class IncomeStatementDataSource extends DataGridSource {
-  IncomeStatementDataSource({required IncomeStatement incomeStatement}) {
+  IncomeStatementDataSource({required IncomeStatementView incomeStatement}) {
     _columns = [
       _gridColumn('account', ''),
       ...incomeStatement.expenses.entries.first.value.keys

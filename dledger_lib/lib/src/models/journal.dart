@@ -1,4 +1,4 @@
-import './transaction.dart';
+import 'transaction.dart';
 
 class Journal {
   List<Transaction> _transactions;

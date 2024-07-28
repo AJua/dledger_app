@@ -1,5 +1,4 @@
-import 'package:dledger_lib/models/account.dart';
-import 'package:dledger_lib/utils/journal_parser.dart';
+import 'package:dledger_lib/dledger_lib.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 void main() {

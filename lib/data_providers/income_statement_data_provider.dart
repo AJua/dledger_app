@@ -1,9 +1,9 @@
 import 'package:dledger_app/models/income_statement.dart';
-import 'package:dledger_lib/models/commodity.dart';
+import 'package:dledger_lib/dledger_lib.dart';
 
 class IncomeStatementDataProvider {
-  IncomeStatement get() {
-    return IncomeStatement({}, {
+  IncomeStatementView get() {
+    return IncomeStatementView({}, {
       'car': {
         '2024-07-24': const Commodity(100, 'TWD', UnitPosition.right),
         '2024-07-25': const Commodity(100, 'TWD', UnitPosition.right),

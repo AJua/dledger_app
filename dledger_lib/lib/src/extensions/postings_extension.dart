@@ -1,9 +1,9 @@
 import 'package:collection/collection.dart';
-import 'package:dledger_lib/models/commodity.dart';
-import 'package:dledger_lib/models/posting.dart';
 import 'package:intl/intl.dart';
 
 import '../models/account.dart';
+import '../models/commodity.dart';
+import '../models/posting.dart';
 
 extension PostingsExtension on Iterable<Posting> {
   Map<String, List<Posting>> groupByAccount({required int depth}) {

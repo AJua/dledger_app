@@ -1,5 +1,6 @@
-import 'package:dledger_lib/models/journal.dart';
-import 'package:dledger_lib/models/posting.dart';
+import '../models/journal.dart';
+import '../models/posting.dart';
+import '../reports/income_statement.dart';
 
 class IncomeStatementReporter {
   IncomeStatement getIncomeStatement(Journal journal) {
@@ -11,15 +12,4 @@ class IncomeStatementReporter {
       expenses: totalRecords.where((r) => r.primaryAccount == 'expenses'),
     );
   }
-}
-
-class IncomeStatement {
-  DateTime statementDate;
-  Iterable<Posting> incomes;
-  Iterable<Posting> expenses;
-
-  IncomeStatement(
-      {required this.statementDate,
-      required this.incomes,
-      required this.expenses});
 }

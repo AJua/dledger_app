@@ -1,11 +1,11 @@
-import 'package:dledger_lib/models/commodity.dart';
-import 'package:dledger_lib/models/journal.dart';
-import 'package:dledger_lib/models/transaction.dart';
 import 'package:flutter/foundation.dart';
 
 import '../models/account.dart';
+import '../models/commodity.dart';
+import '../models/journal.dart';
 import '../models/posting.dart';
 import '../models/posting_dto.dart';
+import '../models/transaction.dart';
 
 class JournalParser {
   Journal parseJournal(String journalText) {

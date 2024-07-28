@@ -1,5 +1,5 @@
 import './account.dart';
-import './commodity.dart';
+import 'commodity.dart';
 
 class Posting {
   final DateTime date;

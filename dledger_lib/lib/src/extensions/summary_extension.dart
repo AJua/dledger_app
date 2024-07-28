@@ -1,6 +1,5 @@
-import 'package:dledger_lib/models/commodity.dart';
-
 import '../models/account.dart';
+import '../models/commodity.dart';
 
 extension SummaryExtension on Map<Account, Map<String, Commodity>> {
   Map<String, Map<String, Commodity>> expandAccount(int depth) {
