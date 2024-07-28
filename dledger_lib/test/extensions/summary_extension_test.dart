@@ -34,6 +34,26 @@ main() {
         }),
       );
     });
+    test('expandAccount with depth = 2', () {
+      var summary = {
+        const Account(['income', 'salary']): {'2024-07-24': someCommodity},
+        const Account(['income', 'bonus']): {'2024-07-24': anotherCommodity},
+      };
+      expect(
+        summary.expandAccount(2),
+        equals({
+          'income': {
+            '2024-07-24': someCommodity + anotherCommodity,
+          },
+          '  salary': {
+            '2024-07-24': someCommodity,
+          },
+          '  bonus': {
+            '2024-07-24': anotherCommodity,
+          },
+        }),
+      );
+    });
   });
   group('depth', () {
     var someCommodity = const Commodity(1, 'TWD', UnitPosition.right);
