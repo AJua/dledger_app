@@ -15,9 +15,22 @@ main() {
       expect(
         summary.expandAccount(1),
         equals({
+          'income': {'2024-07-24': someCommodity + anotherCommodity}
+        }),
+      );
+    });
+    test('expandAccount with depth = 1', () {
+      var summary = {
+        const Account(['income', 'salary']): {'2024-07-24': someCommodity},
+        const Account(['income', 'bonus']): {'2024-07-25': anotherCommodity},
+      };
+      expect(
+        summary.expandAccount(1),
+        equals({
           'income': {
-            '2024-07-24': const Commodity(3, 'TWD', UnitPosition.right)
-          }
+            '2024-07-24': someCommodity,
+            '2024-07-25': anotherCommodity,
+          },
         }),
       );
     });
