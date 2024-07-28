@@ -11,9 +11,3 @@ export './src/models/transaction.dart';
 export './src/reports/income_statement.dart' show IncomeStatement;
 export './src/utils/income_statement_reporter.dart';
 export './src/utils/journal_parser.dart';
-
-/// A Calculator.
-class Calculator {
-  /// Returns [value] plus 1.
-  int addOne(int value) => value + 1;
-}
