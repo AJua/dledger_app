@@ -1,6 +1,7 @@
 import 'package:dledger_lib/models/commodity.dart';
 import 'package:dledger_lib/models/journal.dart';
 import 'package:dledger_lib/models/transaction.dart';
+import 'package:flutter/foundation.dart';
 
 import '../models/account.dart';
 import '../models/posting.dart';
@@ -75,15 +76,26 @@ class JournalParser {
     );
   }
 
-  PostingDto parsePosting(String recordText) {
-    var accountRegExp = RegExp(r'^\s+([\ \w:]+\w)\s{2,}(.*)');
-    var firstMatch = accountRegExp.firstMatch(recordText)!;
+  void _debugPrint(String msg) {
+    if (kDebugMode) {
+      print(msg);
+    }
+  }
 
-    var accountText = firstMatch[1]!;
-    var commodityText = firstMatch[2]!;
+  PostingDto parsePosting(String postingText) {
+    _debugPrint('parsing Posting "$postingText"');
+    var trimPostingText = postingText.trim();
+    if (_isContainsCommodity(trimPostingText)) {
+      var accountRegExp = RegExp(r'^([\ \w:]+\w)\s{2,}(.*)');
+      var firstMatch = accountRegExp.firstMatch(trimPostingText)!;
 
-    return PostingDto(parseAccount(accountText),
-        commodity: parseCommodity(commodityText));
+      var accountText = firstMatch[1]!;
+      var commodityText = firstMatch[2]!;
+
+      return PostingDto(parseAccount(accountText),
+          commodity: parseCommodity(commodityText));
+    }
+    return PostingDto(parseAccount(trimPostingText));
   }
 
   Account parseAccount(String recordText) {
@@ -91,6 +103,7 @@ class JournalParser {
   }
 
   Commodity? parseCommodity(String commodityText) {
+    _debugPrint('parsing Commodity "$commodityText"');
     if (RegExp(r'^\s*$').firstMatch(commodityText) != null) {
       return null;
     }
@@ -111,5 +124,17 @@ class JournalParser {
     var amountText2 = firstMatch![1]!.replaceAll(',', '');
     var unitText = firstMatch[2]!;
     return Commodity(double.parse(amountText2), unitText, UnitPosition.right);
+  }
+
+  bool _isContainsCommodity(String trimPostingText) {
+    var prefixUnit = RegExp(r'([^\s\d\-]+)(\-?[\d\.,]+)$');
+    if (prefixUnit.firstMatch(trimPostingText) != null) {
+      return true;
+    }
+    var suffixUnit = RegExp(r'(\-?[\d\.,]+)\s+(\w+)$');
+    if (suffixUnit.firstMatch(trimPostingText) != null) {
+      return true;
+    }
+    return false;
   }
 }
