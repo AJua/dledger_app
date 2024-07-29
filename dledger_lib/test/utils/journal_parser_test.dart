@@ -50,12 +50,19 @@ void main() {
     expect(account.category, 'Assets');
   });
   group('parsePosting', () {
-    test('postingWithCommodity', () {
+    test('posting with Commodity', () {
       var parser = JournalParser();
       var record = parser.parsePosting('  Assets:Cash   100.00 TWD');
       expect(record.account.hierarchy.join(','), ['Assets', 'Cash'].join(','));
-      expect(record.commodity!.amount, 100);
-      expect(record.commodity!.unit, 'TWD');
+      expect(record.commodity,
+          equals(const Commodity(100, 'TWD', UnitPosition.right)));
+    });
+    test('posting with UTF-8 character', () {
+      var parser = JournalParser();
+      var record = parser.parsePosting('  Assets:Bank:玉山銀行   -200.00 TWD ');
+      expect(record.account, const Account(['Assets', 'Bank', '玉山銀行']));
+      expect(record.commodity,
+          equals(const Commodity(-200, 'TWD', UnitPosition.right)));
     });
     test('postingWithoutCommodity', () {
       var parser = JournalParser();
@@ -68,8 +75,8 @@ void main() {
     test('input value include ISO currency', () {
       var parser = JournalParser();
       var commodity = parser.parseCommodity('100.00 TWD');
-      expect(commodity!.amount, 100);
-      expect(commodity.unit, 'TWD');
+      expect(
+          commodity, equals(const Commodity(100, 'TWD', UnitPosition.right)));
     });
     test('input value is negative', () {
       var parser = JournalParser();

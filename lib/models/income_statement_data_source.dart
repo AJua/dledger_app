@@ -37,11 +37,13 @@ class IncomeStatementDataSource extends DataGridSource {
   GridColumn _gridColumn(String name, String value) {
     return GridColumn(
         columnName: name,
+        width: 144.0,
         label: Container(
-            padding: const EdgeInsets.symmetric(vertical: 4.0, horizontal: 8.0),
+            //padding: const EdgeInsets.symmetric(vertical: 4.0, horizontal: 8.0),
             alignment: Alignment.center,
             child: Text(
               value,
+              softWrap: false,
               style: GoogleFonts.robotoMono(),
             )));
   }
@@ -62,9 +64,9 @@ class IncomeStatementDataSource extends DataGridSource {
         alignment: e.columnName == 'account'
             ? Alignment.centerLeft
             : Alignment.centerRight,
-        padding: const EdgeInsets.symmetric(vertical: 4.0, horizontal: 4.0),
+        //padding: const EdgeInsets.symmetric(vertical: 4.0, horizontal: 4.0),
         child: Text(
-          e.value.toString(),
+          '  ${e.value.toString()}  ',
           style: GoogleFonts.robotoMono(),
           softWrap: false,
         ),

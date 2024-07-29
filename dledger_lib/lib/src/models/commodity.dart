@@ -26,7 +26,7 @@ class Commodity extends Equatable {
   List<Object?> get props => [amount, unit, position];
 
   factory Commodity.zero() {
-    return const Commodity(0, 'unit', UnitPosition.none);
+    return const Commodity(0, '', UnitPosition.none);
   }
 }
 

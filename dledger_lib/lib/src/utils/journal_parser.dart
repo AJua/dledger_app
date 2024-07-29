@@ -86,7 +86,7 @@ class JournalParser {
     _debugPrint('parsing Posting "$postingText"');
     var trimPostingText = postingText.trim();
     if (_isContainsCommodity(trimPostingText)) {
-      var accountRegExp = RegExp(r'^([\ \w:]+\w)\s{2,}(.*)');
+      var accountRegExp = RegExp(r'^([\ \S:]+\S)\s{2,}(.*)');
       var firstMatch = accountRegExp.firstMatch(trimPostingText)!;
 
       var accountText = firstMatch[1]!;

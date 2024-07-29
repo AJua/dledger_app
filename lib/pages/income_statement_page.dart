@@ -31,25 +31,25 @@ class _IncomeStatementPageState extends State<IncomeStatementPage> {
       body: SafeArea(
         child: SfDataGrid(
           source: dataSource,
-          headerRowHeight: 36,
-          rowHeight: 36,
-          columnWidthMode: ColumnWidthMode.fitByCellValue,
+          headerRowHeight: 32,
+          rowHeight: 32,
+          columnWidthMode: ColumnWidthMode.none,
           gridLinesVisibility: GridLinesVisibility.none,
           frozenRowsCount: 0,
           frozenColumnsCount: 1,
           columns: dataSource.columns,
-          tableSummaryRows: [
-            GridTableSummaryRow(
-                showSummaryInRow: true,
-                title: 'Total Salary: {Sum} for 20 employees',
-                columns: [
-                  const GridSummaryColumn(
-                      name: 'Sum',
-                      columnName: 'salary',
-                      summaryType: GridSummaryType.sum)
-                ],
-                position: GridTableSummaryRowPosition.bottom)
-          ],
+          //tableSummaryRows: [
+          //  GridTableSummaryRow(
+          //      showSummaryInRow: true,
+          //      title: 'Total Salary: {Sum} for 20 employees',
+          //      columns: [
+          //        const GridSummaryColumn(
+          //            name: 'Sum',
+          //            columnName: 'salary',
+          //            summaryType: GridSummaryType.sum)
+          //      ],
+          //      position: GridTableSummaryRowPosition.bottom)
+          //],
         ),
       ),
     );
