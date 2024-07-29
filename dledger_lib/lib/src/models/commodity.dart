@@ -24,6 +24,10 @@ class Commodity extends Equatable {
 
   @override
   List<Object?> get props => [amount, unit, position];
+
+  factory Commodity.zero() {
+    return const Commodity(0, 'unit', UnitPosition.none);
+  }
 }
 
-enum UnitPosition { left, right }
+enum UnitPosition { left, right, none }

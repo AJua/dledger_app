@@ -16,6 +16,17 @@ extension SummaryExtension on Map<Account, Map<String, Commodity>> {
         prefix = '  $prefix';
       }
     });
+
+    List<String> intervals = output.values.fold([], (s, e) {
+      return [...s, ...e.keys];
+    });
+    for (var interval in intervals) {
+      for (var e in output.values) {
+        if (!e.containsKey(interval)) {
+          e[interval] = Commodity.zero();
+        }
+      }
+    }
     return output;
   }
 
