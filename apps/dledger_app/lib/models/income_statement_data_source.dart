@@ -73,16 +73,4 @@ class IncomeStatementDataSource extends DataGridSource {
       );
     }).toList());
   }
-
-  @override
-  Widget? buildTableSummaryCellWidget(
-      GridTableSummaryRow summaryRow,
-      GridSummaryColumn? summaryColumn,
-      RowColumnIndex rowColumnIndex,
-      String summaryValue) {
-    return Container(
-      padding: const EdgeInsets.all(4.0),
-      child: Text(summaryValue),
-    );
-  }
 }

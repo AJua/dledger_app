@@ -38,18 +38,6 @@ class _IncomeStatementPageState extends State<IncomeStatementPage> {
           frozenRowsCount: 0,
           frozenColumnsCount: 1,
           columns: dataSource.columns,
-          //tableSummaryRows: [
-          //  GridTableSummaryRow(
-          //      showSummaryInRow: true,
-          //      title: 'Total Salary: {Sum} for 20 employees',
-          //      columns: [
-          //        const GridSummaryColumn(
-          //            name: 'Sum',
-          //            columnName: 'salary',
-          //            summaryType: GridSummaryType.sum)
-          //      ],
-          //      position: GridTableSummaryRowPosition.bottom)
-          //],
         ),
       ),
     );
