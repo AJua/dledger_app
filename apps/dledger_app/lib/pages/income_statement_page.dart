@@ -1,5 +1,6 @@
 import 'package:dledger_app/data_providers/income_statement_data_provider.dart';
 import 'package:dledger_app/models/income_statement_data_source.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:syncfusion_flutter_datagrid/datagrid.dart';
 
@@ -25,8 +26,8 @@ class _IncomeStatementPageState extends State<IncomeStatementPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Syncfusion Flutter DataGrid'),
+      appBar: const CupertinoNavigationBar(
+        middle: Text('dledger app'),
       ),
       body: SafeArea(
         child: SfDataGrid(
