@@ -1,4 +1,0 @@
-# melos_managed_dependency_overrides: dledger_lib
-dependency_overrides:
-  dledger_lib:
-    path: ..\\..\\packages\\dledger_lib
