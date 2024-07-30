@@ -39,17 +39,21 @@ jobs:
 
       # Consider passing '--fatal-infos' for slightly stricter analysis.
       - name: Analyze project source
-        run: dart analyze
+        run: dart run melos run analyze
 
       # Your project will need to have tests in test/ and a dependency on
       # package:test for this step to succeed. Note that Flutter projects will
       # want to change this to 'flutter test'.
       - name: Run tests
-        run: cd dledger_lib; flutter test . --coverage
+        run: dart run melos run test
 
       - name: Upload coverage to Codecov
         uses: codecov/codecov-action@v4
         with:
+          files: |
+            ./apps/dledger_app/coverage/lcov.info
+            ./packages/dledger_lib/coverage/path/lcov.info
+          fail_ci_if_error: true
           verbose: true
         env:
           CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}

@@ -1,0 +1,12 @@
+name: dledger_app
+
+packages:
+  - apps/**
+  - packages/**
+
+scripts:
+  analyze:
+    exec: dart analyze .
+
+  test:
+    exec: flutter test --coverage
