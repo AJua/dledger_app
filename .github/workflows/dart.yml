@@ -30,8 +30,11 @@ jobs:
 
       - run: flutter --version
 
-      - name: Install dependencies
+      - name: Install dependencies for melos
         run: dart pub get
+
+      - name: Install dependencies for packages
+        run: dart run melos exec --fail-fast -- "dart pub get"
 
       # Uncomment this step to verify the use of 'dart format' on each commit.
       # - name: Verify formatting
