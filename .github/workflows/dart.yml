@@ -39,13 +39,13 @@ jobs:
 
       # Consider passing '--fatal-infos' for slightly stricter analysis.
       - name: Analyze project source
-        run: dart run melos run analyze
+        run: dart run melos exec --fail-fast -- "dart analyze ."
 
       # Your project will need to have tests in test/ and a dependency on
       # package:test for this step to succeed. Note that Flutter projects will
       # want to change this to 'flutter test'.
       - name: Run tests
-        run: dart run melos run test
+        run: dart run melos exec --fail-fast -- "flutter test --coverage"
 
       - name: Upload coverage to Codecov
         uses: codecov/codecov-action@v4
