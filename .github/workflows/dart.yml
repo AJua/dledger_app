@@ -48,13 +48,16 @@ jobs:
       # package:test for this step to succeed. Note that Flutter projects will
       # want to change this to 'flutter test'.
       - name: Run tests
-        run: dart run melos exec --fail-fast -- "flutter test --coverage"
+        run: dart run melos exec --dir-exists=test --fail-fast -- "flutter test --coverage"
 
       - name: Upload coverage to Codecov
         uses: codecov/codecov-action@v4
         with:
           files: |
             ./apps/dledger_app/coverage/lcov.info
+            ./apps/material_3_demo/coverage/lcov.info
+            ./apps/navigation_and_routing/coverage/lcov.info
+            ./apps/simplistic_editor/coverage/lcov.info
             ./packages/dledger_lib/coverage/path/lcov.info
           fail_ci_if_error: true
           verbose: true
