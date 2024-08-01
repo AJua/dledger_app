@@ -825,27 +825,27 @@ class _RadiosState extends State<Radios> {
 const List<NavigationDestination> appBarDestinations = [
   NavigationDestination(
     tooltip: '',
-    icon: Icon(Icons.widgets_outlined),
-    label: 'Components',
-    selectedIcon: Icon(Icons.widgets),
+    icon: Icon(Icons.account_balance_wallet_outlined),
+    label: 'Income Statement',
+    selectedIcon: Icon(Icons.account_balance_wallet),
   ),
   NavigationDestination(
     tooltip: '',
-    icon: Icon(Icons.format_paint_outlined),
-    label: 'Color',
-    selectedIcon: Icon(Icons.format_paint),
+    icon: Icon(Icons.account_balance_outlined),
+    label: 'Balance Sheet',
+    selectedIcon: Icon(Icons.account_balance),
   ),
   NavigationDestination(
     tooltip: '',
     icon: Icon(Icons.text_snippet_outlined),
-    label: 'Typography',
+    label: 'Journal',
     selectedIcon: Icon(Icons.text_snippet),
   ),
   NavigationDestination(
     tooltip: '',
-    icon: Icon(Icons.invert_colors_on_outlined),
-    label: 'Elevation',
-    selectedIcon: Icon(Icons.opacity),
+    icon: Icon(Icons.settings_outlined),
+    label: 'Settings',
+    selectedIcon: Icon(Icons.settings),
   )
 ];
 
@@ -934,6 +934,43 @@ class _NavigationBarsState extends State<NavigationBars> {
 
   @override
   Widget build(BuildContext context) {
+    final ColorScheme colorScheme = Theme.of(context).colorScheme;
+    return BottomNavigationBar(
+      type: BottomNavigationBarType.fixed,
+      selectedFontSize: 12.0,
+      unselectedFontSize: 10.0,
+      items: [
+        BottomNavigationBarItem(
+          backgroundColor: colorScheme.primary,
+          icon: const Icon(Icons.account_balance_wallet),
+          label: 'Income Statement',
+        ),
+        BottomNavigationBarItem(
+          backgroundColor: colorScheme.primary,
+          icon: const Icon(Icons.account_balance),
+          label: 'Balance Sheet',
+        ),
+        BottomNavigationBarItem(
+          backgroundColor: colorScheme.primary,
+          icon: const Icon(Icons.event_note),
+          label: 'Journal',
+        ),
+        BottomNavigationBarItem(
+          backgroundColor: colorScheme.primary,
+          icon: const Icon(Icons.settings),
+          label: 'Settings',
+        ),
+      ],
+      currentIndex: selectedIndex,
+      selectedItemColor: Colors.amber[800],
+      onTap: (index) {
+        setState(() {
+          selectedIndex = index;
+        });
+        if (!widget.isExampleBar) widget.onSelectItem!(index);
+      },
+    );
+
     // App NavigationBar should get first focus.
     Widget navigationBar = Focus(
       autofocus: !(widget.isExampleBar || widget.isBadgeExample),
