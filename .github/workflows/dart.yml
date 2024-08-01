@@ -55,9 +55,6 @@ jobs:
         with:
           files: |
             ./apps/dledger_app/coverage/lcov.info
-            ./apps/material_3_demo/coverage/lcov.info
-            ./apps/navigation_and_routing/coverage/lcov.info
-            ./apps/simplistic_editor/coverage/lcov.info
             ./packages/dledger_lib/coverage/path/lcov.info
           fail_ci_if_error: true
           verbose: true
