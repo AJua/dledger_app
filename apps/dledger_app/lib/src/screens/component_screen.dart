@@ -30,10 +30,6 @@ class FirstComponentList extends StatelessWidget {
   Widget build(BuildContext context) {
     List<Widget> children = [
       const Actions(),
-      colDivider,
-      const Communication(),
-      colDivider,
-      const Containment(),
       if (!showSecondList) ...[
         colDivider,
         Navigation(scaffoldKey: scaffoldKey),
@@ -220,39 +216,6 @@ class Actions extends StatelessWidget {
   }
 }
 
-class Communication extends StatelessWidget {
-  const Communication({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return const ComponentGroupDecoration(label: 'Communication', children: [
-      NavigationBars(
-        selectedIndex: 1,
-        isExampleBar: true,
-        isBadgeExample: true,
-      ),
-      ProgressIndicators(),
-      SnackBarSection(),
-    ]);
-  }
-}
-
-class Containment extends StatelessWidget {
-  const Containment({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return const ComponentGroupDecoration(label: 'Containment', children: [
-      BottomSheetSection(),
-      Cards(),
-      Dialogs(),
-      Dividers(),
-      // TODO: Add Lists, https://github.com/flutter/flutter/issues/114006
-      // TODO: Add Side sheets, https://github.com/flutter/flutter/issues/119328
-    ]);
-  }
-}
-
 class Navigation extends StatelessWidget {
   const Navigation({super.key, required this.scaffoldKey});
 
@@ -260,17 +223,12 @@ class Navigation extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ComponentGroupDecoration(label: 'Navigation', children: [
-      const BottomAppBars(),
-      const NavigationBars(
+    return const ComponentGroupDecoration(label: 'Navigation', children: [
+      BottomAppBars(),
+      NavigationBars(
         selectedIndex: 0,
         isExampleBar: true,
       ),
-      NavigationDrawers(scaffoldKey: scaffoldKey),
-      const NavigationRails(),
-      const Tabs(),
-      const SearchAnchors(),
-      const TopAppBars(),
     ]);
   }
 }
@@ -281,14 +239,8 @@ class Selection extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return const ComponentGroupDecoration(label: 'Selection', children: [
-      Checkboxes(),
-      Chips(),
       DatePicker(),
       TimePicker(),
-      Menus(),
-      Radios(),
-      Sliders(),
-      Switches(),
     ]);
   }
 }
