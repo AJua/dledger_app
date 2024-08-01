@@ -29,8 +29,6 @@ class FirstComponentList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     List<Widget> children = [
-      const IncomeStatementView(),
-      colDivider,
       const Actions(),
       colDivider,
       const Communication(),
@@ -216,10 +214,8 @@ class Actions extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return const ComponentGroupDecoration(label: 'Actions', children: <Widget>[
-      Buttons(),
-      FloatingActionButtons(),
-      IconToggleButtons(),
       SegmentedButtons(),
+      IncomeStatementView(),
     ]);
   }
 }
@@ -1512,8 +1508,6 @@ class SegmentedButtons extends StatelessWidget {
       child: Column(
         children: <Widget>[
           SingleChoice(),
-          colDivider,
-          MultipleChoice(),
         ],
       ),
     );
