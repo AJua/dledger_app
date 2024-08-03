@@ -43,6 +43,7 @@ dependencies:
   url_launcher: ^6.3.0
   file_picker: ^8.0.6
   provider: ^6.1.2
+  get_it: ^7.7.0
 
 dev_dependencies:
   flutter_test:

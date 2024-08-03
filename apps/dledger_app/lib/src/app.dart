@@ -1,9 +1,11 @@
+import 'package:dledger_app/src/global_variables.dart';
 import 'package:dledger_lib/dledger_lib.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import 'enums/constants.dart';
 import 'home.dart';
+import 'utilities/ledger_file.dartapp.dart';
 
 class DLedgerApp extends StatefulWidget {
   const DLedgerApp({super.key});
@@ -13,6 +15,12 @@ class DLedgerApp extends StatefulWidget {
 }
 
 class _DLedgerAppState extends State<DLedgerApp> {
+  @override
+  void initState() {
+    super.initState();
+    getIt.registerSingleton<LedgerFile>(LedgerFile());
+  }
+
   bool useMaterial3 = true;
   ThemeMode themeMode = ThemeMode.system;
   ColorSeed colorSelected = ColorSeed.baseColor;
@@ -22,8 +30,7 @@ class _DLedgerAppState extends State<DLedgerApp> {
 
   bool get useLightMode => switch (themeMode) {
         ThemeMode.system =>
-          View.of(context).platformDispatcher.platformBrightness ==
-              Brightness.light,
+          View.of(context).platformDispatcher.platformBrightness == Brightness.light,
         ThemeMode.light => true,
         ThemeMode.dark => false
       };
@@ -43,8 +50,7 @@ class _DLedgerAppState extends State<DLedgerApp> {
 
   void handleImageSelect(int value) {
     final String url = ColorImageProvider.values[value].url;
-    ColorScheme.fromImageProvider(provider: NetworkImage(url))
-        .then((newScheme) {
+    ColorScheme.fromImageProvider(provider: NetworkImage(url)).then((newScheme) {
       setState(() {
         colorSelectionMethod = ColorSelectionMethod.image;
         imageSelected = ColorImageProvider.values[value];
@@ -60,12 +66,9 @@ class _DLedgerAppState extends State<DLedgerApp> {
       title: 'dledger app',
       themeMode: themeMode,
       theme: ThemeData(
-        colorSchemeSeed: colorSelectionMethod == ColorSelectionMethod.colorSeed
-            ? colorSelected.color
-            : null,
-        colorScheme: colorSelectionMethod == ColorSelectionMethod.image
-            ? imageColorScheme
-            : null,
+        colorSchemeSeed:
+            colorSelectionMethod == ColorSelectionMethod.colorSeed ? colorSelected.color : null,
+        colorScheme: colorSelectionMethod == ColorSelectionMethod.image ? imageColorScheme : null,
         useMaterial3: true,
         brightness: Brightness.light,
       ),
@@ -78,7 +81,8 @@ class _DLedgerAppState extends State<DLedgerApp> {
       ),
       home: ChangeNotifierProvider<Journal>(
         create: (BuildContext context) {
-          return Journal.init();
+          var journalText = getIt<LedgerFile>().read();
+          return JournalParser().parseJournal(journalText);
         },
         child: Home(
           useLightMode: useLightMode,

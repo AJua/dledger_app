@@ -30,10 +30,10 @@ class FirstComponentList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
+    return const Column(
       children: [
         Padding(
-          padding: const EdgeInsets.all(8.0),
+          padding: EdgeInsets.all(8.0),
           child: SingleChoice(),
         ),
         Expanded(child: IncomeStatementDisplay())
