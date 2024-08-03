@@ -1,7 +1,9 @@
 import 'dart:io';
 
+import 'package:path_provider/path_provider.dart';
+
 class LedgerFile {
-  File? _localFile;
+  static const String fileName = 'main.ledger';
   static const String sampleFile = r'''
 2023-01-01 opening balances            ; <- First transaction sets starting balances.
     assets:bank:checking        $1000  ; <- Account names can be anything.
@@ -26,7 +28,20 @@ class LedgerFile {
 
   LedgerFile();
 
-  String read() {
-    return _localFile?.readAsStringSync() ?? sampleFile;
+  Future<String> read() async {
+    final Directory appDocumentsDir = await getApplicationDocumentsDirectory();
+    var file = File('${appDocumentsDir.path}/$fileName');
+    if (await file.exists()) {
+      return file.readAsStringSync();
+    } else {
+      return sampleFile;
+    }
+  }
+
+  Future save(String contents) async {
+    final Directory appDocumentsDir = await getApplicationDocumentsDirectory();
+    print(appDocumentsDir.path);
+    var file = File('${appDocumentsDir.path}/$fileName');
+    await file.writeAsString(contents);
   }
 }

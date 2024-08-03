@@ -28,6 +28,9 @@ class _IncomeStatementDisplayState extends State<IncomeStatementDisplay> {
   @override
   Widget build(BuildContext context) {
     var journal = context.watch<Journal>();
+    if (!journal.isLoaded) {
+      return const Text('loading...');
+    }
     var statement = IncomeStatementReporter().getIncomeStatement(journal);
     var view = IncomeStatementView(
       {},

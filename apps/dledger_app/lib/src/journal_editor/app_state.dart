@@ -1,6 +1,8 @@
+import 'package:dledger_app/src/utilities/ledger_file.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
+import '../global_variables.dart';
 import 'app_state_manager.dart';
 import 'formatting_toolbar.dart' show ToggleButtonsState;
 import 'replacements.dart';
@@ -22,10 +24,8 @@ class AppState {
     Set<ToggleButtonsState>? toggleButtonsState,
   }) {
     return AppState(
-      replacementsController:
-          replacementsController ?? this.replacementsController,
-      textEditingDeltaHistory:
-          textEditingDeltaHistory ?? this.textEditingDeltaHistory,
+      replacementsController: replacementsController ?? this.replacementsController,
+      textEditingDeltaHistory: textEditingDeltaHistory ?? this.textEditingDeltaHistory,
       toggleButtonsState: toggleButtonsState ?? this.toggleButtonsState,
     );
   }
@@ -46,11 +46,18 @@ class AppStateWidget extends StatefulWidget {
 
 class AppStateWidgetState extends State<AppStateWidget> {
   AppState _data = AppState(
-    replacementsController: ReplacementTextEditingController(
-        text: 'The quick brown fox jumps over the lazy dog.'),
+    replacementsController: ReplacementTextEditingController(text: 'loading...'),
     textEditingDeltaHistory: <TextEditingDelta>[],
     toggleButtonsState: <ToggleButtonsState>{},
   );
+
+  @override
+  void initState() {
+    super.initState();
+    getIt<LedgerFile>().read().then((journalText) {
+      _data.replacementsController.text = journalText;
+    });
+  }
 
   void updateTextEditingDeltaHistory(List<TextEditingDelta> textEditingDeltas) {
     _data = _data.copyWith(textEditingDeltaHistory: <TextEditingDelta>[
@@ -65,8 +72,7 @@ class AppStateWidgetState extends State<AppStateWidget> {
     // When the selection changes we want to check the replacements at the new
     // selection. Enable/disable toggle buttons based on the replacements found
     // at the new selection.
-    final List<TextStyle> replacementStyles =
-        controller.getReplacementsAtSelection(selection);
+    final List<TextStyle> replacementStyles = controller.getReplacementsAtSelection(selection);
     final Set<ToggleButtonsState> hasChanged = {};
 
     if (replacementStyles.isEmpty) {
@@ -83,55 +89,44 @@ class AppStateWidgetState extends State<AppStateWidget> {
     for (final TextStyle style in replacementStyles) {
       // See [_updateToggleButtonsStateOnButtonPressed] for how
       // Bold, Italic and Underline are encoded into [style]
-      if (style.fontWeight != null &&
-          !hasChanged.contains(ToggleButtonsState.bold)) {
+      if (style.fontWeight != null && !hasChanged.contains(ToggleButtonsState.bold)) {
         _data = _data.copyWith(
-          toggleButtonsState: Set.from(_data.toggleButtonsState)
-            ..add(ToggleButtonsState.bold),
+          toggleButtonsState: Set.from(_data.toggleButtonsState)..add(ToggleButtonsState.bold),
         );
         hasChanged.add(ToggleButtonsState.bold);
       }
 
-      if (style.fontStyle != null &&
-          !hasChanged.contains(ToggleButtonsState.italic)) {
+      if (style.fontStyle != null && !hasChanged.contains(ToggleButtonsState.italic)) {
         _data = _data.copyWith(
-          toggleButtonsState: Set.from(_data.toggleButtonsState)
-            ..add(ToggleButtonsState.italic),
+          toggleButtonsState: Set.from(_data.toggleButtonsState)..add(ToggleButtonsState.italic),
         );
         hasChanged.add(ToggleButtonsState.italic);
       }
 
-      if (style.decoration != null &&
-          !hasChanged.contains(ToggleButtonsState.underline)) {
+      if (style.decoration != null && !hasChanged.contains(ToggleButtonsState.underline)) {
         _data = _data.copyWith(
-          toggleButtonsState: Set.from(_data.toggleButtonsState)
-            ..add(ToggleButtonsState.underline),
+          toggleButtonsState: Set.from(_data.toggleButtonsState)..add(ToggleButtonsState.underline),
         );
         hasChanged.add(ToggleButtonsState.underline);
       }
     }
 
     for (final TextStyle style in replacementStyles) {
-      if (style.fontWeight == null &&
-          !hasChanged.contains(ToggleButtonsState.bold)) {
+      if (style.fontWeight == null && !hasChanged.contains(ToggleButtonsState.bold)) {
         _data = _data.copyWith(
-          toggleButtonsState: Set.from(_data.toggleButtonsState)
-            ..remove(ToggleButtonsState.bold),
+          toggleButtonsState: Set.from(_data.toggleButtonsState)..remove(ToggleButtonsState.bold),
         );
         hasChanged.add(ToggleButtonsState.bold);
       }
 
-      if (style.fontStyle == null &&
-          !hasChanged.contains(ToggleButtonsState.italic)) {
+      if (style.fontStyle == null && !hasChanged.contains(ToggleButtonsState.italic)) {
         _data = _data.copyWith(
-          toggleButtonsState: Set.from(_data.toggleButtonsState)
-            ..remove(ToggleButtonsState.italic),
+          toggleButtonsState: Set.from(_data.toggleButtonsState)..remove(ToggleButtonsState.italic),
         );
         hasChanged.add(ToggleButtonsState.italic);
       }
 
-      if (style.decoration == null &&
-          !hasChanged.contains(ToggleButtonsState.underline)) {
+      if (style.decoration == null && !hasChanged.contains(ToggleButtonsState.underline)) {
         _data = _data.copyWith(
           toggleButtonsState: Set.from(_data.toggleButtonsState)
             ..remove(ToggleButtonsState.underline),
@@ -151,8 +146,7 @@ class AppStateWidgetState extends State<AppStateWidget> {
       2: TextStyle(decoration: TextDecoration.underline),
     };
 
-    final ReplacementTextEditingController controller =
-        _data.replacementsController;
+    final ReplacementTextEditingController controller = _data.replacementsController;
 
     final TextRange replacementRange = TextRange(
       start: controller.selection.start,
@@ -163,13 +157,11 @@ class AppStateWidgetState extends State<AppStateWidget> {
 
     if (_data.toggleButtonsState.contains(targetToggleButtonState)) {
       _data = _data.copyWith(
-        toggleButtonsState: Set.from(_data.toggleButtonsState)
-          ..remove(targetToggleButtonState),
+        toggleButtonsState: Set.from(_data.toggleButtonsState)..remove(targetToggleButtonState),
       );
     } else {
       _data = _data.copyWith(
-        toggleButtonsState: Set.from(_data.toggleButtonsState)
-          ..add(targetToggleButtonState),
+        toggleButtonsState: Set.from(_data.toggleButtonsState)..add(targetToggleButtonState),
       );
     }
 
@@ -185,8 +177,7 @@ class AppStateWidgetState extends State<AppStateWidget> {
       setState(() {});
     } else {
       controller.disableExpand(attributeMap[index]!);
-      controller.removeReplacementsAtRange(
-          replacementRange, attributeMap[index]);
+      controller.removeReplacementsAtRange(replacementRange, attributeMap[index]);
       _data = _data.copyWith(replacementsController: controller);
       setState(() {});
     }

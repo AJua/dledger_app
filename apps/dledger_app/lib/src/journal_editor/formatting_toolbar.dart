@@ -1,11 +1,13 @@
 import 'dart:io';
 
 import 'package:dledger_app/src/journal_editor/replacements.dart';
+import 'package:dledger_app/src/utilities/ledger_file.dart';
 import 'package:dledger_lib/dledger_lib.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
+import '../global_variables.dart';
 import 'app_state_manager.dart';
 
 /// The toggle buttons that can be selected.
@@ -40,6 +42,13 @@ class FormattingToolbar extends StatelessWidget {
               controller.text = text;
             },
             icon: const Icon(Icons.file_open),
+          ),
+          IconButton(
+            onPressed: () async {
+              getIt<LedgerFile>().save(controller.text);
+              //journal.reload(JournalParser().parseJournal(text).transactions);
+            },
+            icon: const Icon(Icons.save),
           ),
           //ToggleButtons(
           //  borderRadius: const BorderRadius.all(Radius.circular(4.0)),

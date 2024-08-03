@@ -3,6 +3,9 @@ import 'package:flutter/foundation.dart';
 import 'transaction.dart';
 
 class Journal with ChangeNotifier, DiagnosticableTreeMixin {
+  bool _isLoaded = false;
+
+  bool get isLoaded => _isLoaded;
   List<Transaction> _transactions;
 
   List<Transaction> get transactions => _transactions.toList(growable: false);
@@ -27,6 +30,7 @@ class Journal with ChangeNotifier, DiagnosticableTreeMixin {
 
   reload(List<Transaction> transactions) {
     _transactions = transactions;
+    _isLoaded = true;
     notifyListeners();
   }
 }

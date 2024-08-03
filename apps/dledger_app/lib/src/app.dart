@@ -5,7 +5,7 @@ import 'package:provider/provider.dart';
 
 import 'enums/constants.dart';
 import 'home.dart';
-import 'utilities/ledger_file.dartapp.dart';
+import 'utilities/ledger_file.dart';
 
 class DLedgerApp extends StatefulWidget {
   const DLedgerApp({super.key});
@@ -81,8 +81,11 @@ class _DLedgerAppState extends State<DLedgerApp> {
       ),
       home: ChangeNotifierProvider<Journal>(
         create: (BuildContext context) {
-          var journalText = getIt<LedgerFile>().read();
-          return JournalParser().parseJournal(journalText);
+          var journal = Journal.init();
+          getIt<LedgerFile>().read().then((journalText) async {
+            journal.reload(JournalParser().parseJournal(journalText).transactions);
+          });
+          return journal;
         },
         child: Home(
           useLightMode: useLightMode,
