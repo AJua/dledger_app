@@ -7,10 +7,10 @@ import 'package:flutter/material.dart';
 import 'animations/navigation_transition.dart';
 import 'animations/one_two_transition.dart';
 import 'enums/constants.dart';
-import 'screens/color_palettes_screen.dart';
-import 'screens/component_screen.dart';
-import 'screens/elevation_screen.dart';
-import 'screens/typography_screen.dart';
+import 'screens/balance_sheet_screen.dart';
+import 'screens/help_screen.dart';
+import 'screens/income_statement_screen.dart';
+import 'screens/journal_screen.dart';
 
 class Home extends StatefulWidget {
   const Home({
@@ -45,7 +45,7 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
   bool showMediumSizeLayout = false;
   bool showLargeSizeLayout = false;
 
-  int screenIndex = ScreenSelected.component.value;
+  int screenIndex = ScreenSelected.incomeStatement.value;
 
   @override
   initState() {
@@ -81,15 +81,13 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
         showMediumSizeLayout = true;
         showLargeSizeLayout = false;
       }
-      if (status != AnimationStatus.forward &&
-          status != AnimationStatus.completed) {
+      if (status != AnimationStatus.forward && status != AnimationStatus.completed) {
         controller.forward();
       }
     } else {
       showMediumSizeLayout = false;
       showLargeSizeLayout = false;
-      if (status != AnimationStatus.reverse &&
-          status != AnimationStatus.dismissed) {
+      if (status != AnimationStatus.reverse && status != AnimationStatus.dismissed) {
         controller.reverse();
       }
     }
@@ -110,7 +108,7 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
     bool showNavBarExample,
   ) =>
       switch (screenSelected) {
-        ScreenSelected.component => Expanded(
+        ScreenSelected.incomeStatement => Expanded(
             child: OneTwoTransition(
               animation: railAnimation,
               one: FirstComponentList(
@@ -122,9 +120,9 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
               ),
             ),
           ),
-        ScreenSelected.color => const ColorPalettesScreen(),
-        ScreenSelected.typography => const TypographyScreen(),
-        ScreenSelected.elevation => const ElevationScreen()
+        ScreenSelected.balanceSheet => const BalanceSheetScreen(),
+        ScreenSelected.journal => const JournalScreen(),
+        ScreenSelected.help => const HelpScreen()
       };
 
   PreferredSizeWidget createAppBar() {
@@ -186,8 +184,7 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
           animationController: controller,
           railAnimation: railAnimation,
           appBar: createAppBar(),
-          body: createScreenFor(
-              ScreenSelected.values[screenIndex], controller.value == 1),
+          body: createScreenFor(ScreenSelected.values[screenIndex], controller.value == 1),
           navigationRail: NavigationRail(
             extended: showLargeSizeLayout,
             destinations: navRailDestinations,
@@ -248,9 +245,8 @@ class _BrightnessButton extends StatelessWidget {
       preferBelow: showTooltipBelow,
       message: 'Toggle brightness',
       child: IconButton(
-        icon: isBright
-            ? const Icon(Icons.dark_mode_outlined)
-            : const Icon(Icons.light_mode_outlined),
+        icon:
+            isBright ? const Icon(Icons.dark_mode_outlined) : const Icon(Icons.light_mode_outlined),
         onPressed: () => handleBrightnessChange(!isBright),
       ),
     );
@@ -415,9 +411,7 @@ class _ExpandedTrailingActions extends StatelessWidget {
           ),
           Row(
             children: [
-              useMaterial3
-                  ? const Text('Material 3')
-                  : const Text('Material 2'),
+              useMaterial3 ? const Text('Material 3') : const Text('Material 2'),
               Expanded(child: Container()),
               Switch(value: useMaterial3, onChanged: (_) {})
             ],
@@ -533,23 +527,22 @@ class _ExpandedImageColorAction extends StatelessWidget {
   }
 }
 
-final List<NavigationRailDestination> navRailDestinations =
-    appBarDestinations //
-        .map(
+final List<NavigationRailDestination> navRailDestinations = appBarDestinations //
+    .map(
+      //
+      (destination) => NavigationRailDestination(
+        //
+        icon: Tooltip(
           //
-          (destination) => NavigationRailDestination(
-            //
-            icon: Tooltip(
-              //
-              message: destination.label, //
-              child: destination.icon, //
-            ), //
-            selectedIcon: Tooltip(
-              //
-              message: destination.label, //
-              child: destination.selectedIcon, //
-            ), //
-            label: Text(destination.label), //
-          ), //
-        ) //
-        .toList();
+          message: destination.label, //
+          child: destination.icon, //
+        ), //
+        selectedIcon: Tooltip(
+          //
+          message: destination.label, //
+          child: destination.selectedIcon, //
+        ), //
+        label: Text(destination.label), //
+      ), //
+    ) //
+    .toList();

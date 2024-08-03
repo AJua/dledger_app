@@ -210,10 +210,10 @@ class Actions extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
+    return const Column(
       children: [
         IncomeStatementDisplay(),
-        const ComponentGroupDecoration(label: 'Actions', children: <Widget>[
+        ComponentGroupDecoration(label: 'Actions', children: <Widget>[
           SegmentedButtons(),
         ]),
       ],
@@ -958,8 +958,8 @@ class _NavigationBarsState extends State<NavigationBars> {
         ),
         BottomNavigationBarItem(
           backgroundColor: colorScheme.primary,
-          icon: const Icon(Icons.settings),
-          label: 'Settings',
+          icon: const Icon(Icons.help),
+          label: 'Help',
         ),
       ],
       currentIndex: selectedIndex,

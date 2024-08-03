@@ -4,8 +4,8 @@
 
 import 'package:flutter/material.dart';
 
-class ElevationScreen extends StatelessWidget {
-  const ElevationScreen({super.key});
+class HelpScreen extends StatelessWidget {
+  const HelpScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -70,8 +70,7 @@ class ElevationGrid extends StatelessWidget {
   final Color? shadowColor;
   final Color? surfaceTintColor;
 
-  List<ElevationCard> elevationCards(
-      Color? shadowColor, Color? surfaceTintColor) {
+  List<ElevationCard> elevationCards(Color? shadowColor, Color? surfaceTintColor) {
     return elevations
         .map(
           (elevationInfo) => ElevationCard(
@@ -105,8 +104,7 @@ class ElevationGrid extends StatelessWidget {
 }
 
 class ElevationCard extends StatefulWidget {
-  const ElevationCard(
-      {super.key, required this.info, this.shadowColor, this.surfaceTint});
+  const ElevationCard({super.key, required this.info, this.shadowColor, this.surfaceTint});
 
   final ElevationInfo info;
   final Color? shadowColor;
@@ -172,6 +170,7 @@ class _ElevationCardState extends State<ElevationCard> {
 
 class ElevationInfo {
   const ElevationInfo(this.level, this.elevation, this.overlayPercent);
+
   final int level;
   final double elevation;
   final int overlayPercent;

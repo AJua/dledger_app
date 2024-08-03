@@ -13,8 +13,8 @@ const Widget divider = SizedBox(height: 10);
 // be displayed in a row.
 const double narrowScreenWidthThreshold = 400;
 
-class ColorPalettesScreen extends StatelessWidget {
-  const ColorPalettesScreen({super.key});
+class BalanceSheetScreen extends StatelessWidget {
+  const BalanceSheetScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -434,8 +434,7 @@ class ColorChip extends StatelessWidget {
   final Color? onColor;
   final String label;
 
-  static Color contrastColor(Color color) =>
-      switch (ThemeData.estimateBrightnessForColor(color)) {
+  static Color contrastColor(Color color) => switch (ThemeData.estimateBrightnessForColor(color)) {
         Brightness.dark => Colors.white,
         Brightness.light => Colors.black
       };
