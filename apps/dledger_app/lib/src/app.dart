@@ -1,4 +1,6 @@
+import 'package:dledger_lib/dledger_lib.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 import 'enums/constants.dart';
 import 'home.dart';
@@ -74,14 +76,19 @@ class _DLedgerAppState extends State<DLedgerApp> {
         useMaterial3: true,
         brightness: Brightness.dark,
       ),
-      home: Home(
-        useLightMode: useLightMode,
-        colorSelected: colorSelected,
-        imageSelected: imageSelected,
-        handleBrightnessChange: handleBrightnessChange,
-        handleColorSelect: handleColorSelect,
-        handleImageSelect: handleImageSelect,
-        colorSelectionMethod: colorSelectionMethod,
+      home: ChangeNotifierProvider<Journal>(
+        create: (BuildContext context) {
+          return Journal.init();
+        },
+        child: Home(
+          useLightMode: useLightMode,
+          colorSelected: colorSelected,
+          imageSelected: imageSelected,
+          handleBrightnessChange: handleBrightnessChange,
+          handleColorSelect: handleColorSelect,
+          handleImageSelect: handleImageSelect,
+          colorSelectionMethod: colorSelectionMethod,
+        ),
       ),
     );
   }

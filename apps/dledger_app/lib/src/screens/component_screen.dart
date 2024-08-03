@@ -32,12 +32,7 @@ class FirstComponentList extends StatelessWidget {
   Widget build(BuildContext context) {
     List<Widget> children = [
       const Actions(),
-      if (!showSecondList) ...[
-        colDivider,
-        const Selection(),
-        colDivider,
-        const TextInputs()
-      ],
+      if (!showSecondList) ...[colDivider, const Selection(), colDivider, const TextInputs()],
     ];
     List<double?> heights = List.filled(children.length, null);
 
@@ -138,8 +133,7 @@ class _CacheHeight extends SingleChildRenderObjectWidget {
   }
 
   @override
-  void updateRenderObject(
-      BuildContext context, _RenderCacheHeight renderObject) {
+  void updateRenderObject(BuildContext context, _RenderCacheHeight renderObject) {
     renderObject
       ..heights = heights
       ..index = index;
@@ -196,8 +190,8 @@ class BuildSlivers extends SliverChildBuilderDelegate {
   final List<double?> heights;
 
   @override
-  double? estimateMaxScrollOffset(int firstIndex, int lastIndex,
-      double leadingScrollOffset, double trailingScrollOffset) {
+  double? estimateMaxScrollOffset(
+      int firstIndex, int lastIndex, double leadingScrollOffset, double trailingScrollOffset) {
     return heights.reduce((sum, height) => (sum ?? 0) + (height ?? 0))!;
   }
 }
@@ -209,7 +203,7 @@ class Actions extends StatelessWidget {
   Widget build(BuildContext context) {
     return const ComponentGroupDecoration(label: 'Actions', children: <Widget>[
       SegmentedButtons(),
-      IncomeStatementView(),
+      IncomeStatementDisplay(),
     ]);
   }
 }
@@ -336,8 +330,7 @@ class FloatingActionButtons extends StatelessWidget {
   Widget build(BuildContext context) {
     return ComponentDecoration(
       label: 'Floating action buttons',
-      tooltipMessage:
-          'Use FloatingActionButton or FloatingActionButton.extended',
+      tooltipMessage: 'Use FloatingActionButton or FloatingActionButton.extended',
       child: Wrap(
         crossAxisAlignment: WrapCrossAlignment.center,
         runSpacing: smallSpacing,
@@ -574,49 +567,45 @@ class _TextFieldsState extends State<TextFields> {
           ),
           Padding(
               padding: const EdgeInsets.all(smallSpacing),
-              child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Flexible(
-                      child: SizedBox(
-                        width: 200,
-                        child: TextField(
-                          controller: _controllerOutlined,
-                          decoration: InputDecoration(
-                            prefixIcon: const Icon(Icons.search),
-                            suffixIcon:
-                                _ClearButton(controller: _controllerOutlined),
-                            labelText: 'Outlined',
-                            hintText: 'hint text',
-                            helperText: 'supporting text',
-                            errorText: 'error text',
-                            border: const OutlineInputBorder(),
-                            filled: true,
-                          ),
-                        ),
+              child: Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
+                Flexible(
+                  child: SizedBox(
+                    width: 200,
+                    child: TextField(
+                      controller: _controllerOutlined,
+                      decoration: InputDecoration(
+                        prefixIcon: const Icon(Icons.search),
+                        suffixIcon: _ClearButton(controller: _controllerOutlined),
+                        labelText: 'Outlined',
+                        hintText: 'hint text',
+                        helperText: 'supporting text',
+                        errorText: 'error text',
+                        border: const OutlineInputBorder(),
+                        filled: true,
                       ),
                     ),
-                    const SizedBox(width: smallSpacing),
-                    Flexible(
-                      child: SizedBox(
-                        width: 200,
-                        child: TextField(
-                          controller: _controllerOutlined,
-                          enabled: false,
-                          decoration: InputDecoration(
-                            prefixIcon: const Icon(Icons.search),
-                            suffixIcon:
-                                _ClearButton(controller: _controllerOutlined),
-                            labelText: 'Disabled',
-                            hintText: 'hint text',
-                            helperText: 'supporting text',
-                            border: const OutlineInputBorder(),
-                            filled: true,
-                          ),
-                        ),
+                  ),
+                ),
+                const SizedBox(width: smallSpacing),
+                Flexible(
+                  child: SizedBox(
+                    width: 200,
+                    child: TextField(
+                      controller: _controllerOutlined,
+                      enabled: false,
+                      decoration: InputDecoration(
+                        prefixIcon: const Icon(Icons.search),
+                        suffixIcon: _ClearButton(controller: _controllerOutlined),
+                        labelText: 'Disabled',
+                        hintText: 'hint text',
+                        helperText: 'supporting text',
+                        border: const OutlineInputBorder(),
+                        filled: true,
                       ),
                     ),
-                  ])),
+                  ),
+                ),
+              ])),
         ],
       ),
     );
@@ -671,8 +660,7 @@ class _SwitchRowState extends State<SwitchRow> {
   bool value0 = false;
   bool value1 = true;
 
-  final WidgetStateProperty<Icon?> thumbIcon =
-      WidgetStateProperty.resolveWith<Icon?>((states) {
+  final WidgetStateProperty<Icon?> thumbIcon = WidgetStateProperty.resolveWith<Icon?>((states) {
     if (states.contains(WidgetState.selected)) {
       return const Icon(Icons.check);
     }
@@ -992,14 +980,10 @@ class _NavigationBarsState extends State<NavigationBars> {
 
     if (widget.isExampleBar && widget.isBadgeExample) {
       navigationBar = ComponentDecoration(
-          label: 'Badges',
-          tooltipMessage: 'Use Badge or Badge.count',
-          child: navigationBar);
+          label: 'Badges', tooltipMessage: 'Use Badge or Badge.count', child: navigationBar);
     } else if (widget.isExampleBar) {
       navigationBar = ComponentDecoration(
-          label: 'Navigation bar',
-          tooltipMessage: 'Use NavigationBar',
-          child: navigationBar);
+          label: 'Navigation bar', tooltipMessage: 'Use NavigationBar', child: navigationBar);
     }
 
     return navigationBar;
@@ -1276,8 +1260,7 @@ class _TimePickerState extends State<TimePicker> {
             selectedTime = time;
             if (selectedTime != null) {
               ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                content:
-                    Text('Selected time: ${selectedTime!.format(context)}'),
+                content: Text('Selected time: ${selectedTime!.format(context)}'),
               ));
             }
           });
@@ -1324,21 +1307,18 @@ class _SingleChoiceState extends State<SingleChoice> {
     return SegmentedButton<Calendar>(
       segments: const <ButtonSegment<Calendar>>[
         ButtonSegment<Calendar>(
-            value: Calendar.day,
-            label: Text('Day'),
-            icon: Icon(Icons.calendar_view_day)),
+            value: Calendar.day, label: Text('Day'), icon: Icon(Icons.calendar_view_day)),
         ButtonSegment<Calendar>(
-            value: Calendar.week,
-            label: Text('Week'),
-            icon: Icon(Icons.calendar_view_week)),
+            value: Calendar.week, label: Text('Week'), icon: Icon(Icons.calendar_view_week)),
         ButtonSegment<Calendar>(
             value: Calendar.month,
-            label: Text('Month'),
+            label: Text(
+              'Month',
+              overflow: TextOverflow.ellipsis,
+            ),
             icon: Icon(Icons.calendar_view_month)),
         ButtonSegment<Calendar>(
-            value: Calendar.year,
-            label: Text('Year'),
-            icon: Icon(Icons.calendar_today)),
+            value: Calendar.year, label: Text('Year'), icon: Icon(Icons.calendar_today)),
       ],
       selected: <Calendar>{calendarView},
       onSelectionChanged: (newSelection) {
@@ -1394,8 +1374,7 @@ class SnackBarSection extends StatelessWidget {
   Widget build(BuildContext context) {
     return ComponentDecoration(
       label: 'Snackbar',
-      tooltipMessage:
-          'Use ScaffoldMessenger.of(context).showSnackBar with SnackBar',
+      tooltipMessage: 'Use ScaffoldMessenger.of(context).showSnackBar with SnackBar',
       child: TextButton(
         onPressed: () {
           final snackBar = SnackBar(
@@ -1449,8 +1428,7 @@ class _ComponentDecorationState extends State<ComponentDecoration> {
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Text(widget.label,
-                    style: Theme.of(context).textTheme.titleSmall),
+                Text(widget.label, style: Theme.of(context).textTheme.titleSmall),
                 Tooltip(
                   message: widget.tooltipMessage,
                   child: const Padding(
@@ -1460,8 +1438,7 @@ class _ComponentDecorationState extends State<ComponentDecoration> {
               ],
             ),
             ConstrainedBox(
-              constraints:
-                  const BoxConstraints.tightFor(width: widthConstraint),
+              constraints: const BoxConstraints.tightFor(width: widthConstraint),
               // Tapping within the a component card should request focus
               // for that component's children.
               child: Focus(
@@ -1481,8 +1458,7 @@ class _ComponentDecorationState extends State<ComponentDecoration> {
                       borderRadius: const BorderRadius.all(Radius.circular(12)),
                     ),
                     child: Padding(
-                      padding: const EdgeInsets.symmetric(
-                          horizontal: 5.0, vertical: 20.0),
+                      padding: const EdgeInsets.symmetric(horizontal: 5.0, vertical: 20.0),
                       child: Center(
                         child: widget.child,
                       ),
@@ -1499,8 +1475,7 @@ class _ComponentDecorationState extends State<ComponentDecoration> {
 }
 
 class ComponentGroupDecoration extends StatelessWidget {
-  const ComponentGroupDecoration(
-      {super.key, required this.label, required this.children});
+  const ComponentGroupDecoration({super.key, required this.label, required this.children});
 
   final String label;
   final List<Widget> children;
@@ -1512,10 +1487,7 @@ class ComponentGroupDecoration extends StatelessWidget {
       child: Card(
         margin: EdgeInsets.zero,
         elevation: 0,
-        color: Theme.of(context)
-            .colorScheme
-            .surfaceContainerHighest
-            .withOpacity(0.3),
+        color: Theme.of(context).colorScheme.surfaceContainerHighest.withOpacity(0.3),
         child: Padding(
           padding: const EdgeInsets.symmetric(vertical: 20.0),
           child: Center(

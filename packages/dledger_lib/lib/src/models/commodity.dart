@@ -9,6 +9,7 @@ class Commodity extends Equatable {
   const Commodity(this.amount, this.unit, this.position, {this.cost});
 
   String amountFormat() {
+    return amount.toString();
     return position == UnitPosition.left ? '$unit$amount' : '$amount $unit';
   }
 

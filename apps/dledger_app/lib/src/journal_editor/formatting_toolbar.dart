@@ -1,8 +1,10 @@
 import 'dart:io';
 
 import 'package:dledger_app/src/journal_editor/replacements.dart';
+import 'package:dledger_lib/dledger_lib.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 import 'app_state_manager.dart';
 
@@ -21,6 +23,7 @@ class FormattingToolbar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final AppStateManager manager = AppStateManager.of(context);
+    final Journal journal = context.read<Journal>();
 
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 0.0),
@@ -28,18 +31,16 @@ class FormattingToolbar extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.start,
         children: [
           IconButton(
-              onPressed: () {
-                FilePicker.platform
-                    .pickFiles(allowMultiple: false)
-                    .then((result) {
-                  if (result == null) return;
-                  var file = File(result.files.first.path!);
-                  var text = file.readAsStringSync();
-                  controller.text = text;
-                  //controller.applyReplacement(TextEditingInlineSpanReplacement(range, generator, expand))
-                });
-              },
-              icon: const Icon(Icons.file_open)),
+            onPressed: () async {
+              var result = await FilePicker.platform.pickFiles(allowMultiple: false);
+              if (result == null) return;
+              var file = File(result.files.first.path!);
+              var text = file.readAsStringSync();
+              journal.reload(JournalParser().parseJournal(text).transactions);
+              controller.text = text;
+            },
+            icon: const Icon(Icons.file_open),
+          ),
           //ToggleButtons(
           //  borderRadius: const BorderRadius.all(Radius.circular(4.0)),
           //  isSelected: [

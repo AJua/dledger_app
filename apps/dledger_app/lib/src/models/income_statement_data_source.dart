@@ -9,25 +9,21 @@ class IncomeStatementDataSource extends DataGridSource {
   IncomeStatementDataSource({required IncomeStatementView incomeStatement}) {
     _columns = [
       _gridColumn('account', ''),
-      ...incomeStatement.expenses.entries.first.value.keys
-          .map((key) => _gridColumn(key, key))
+      ...incomeStatement.expenses.entries.first.value.keys.map((key) => _gridColumn(key, key))
     ];
 
     _rows = incomeStatement.expenses.entries
         .map((accountEntry) => DataGridRow(
               cells: [
-                DataGridCell<String>(
-                    columnName: 'account', value: accountEntry.key),
-                ...accountEntry.value.entries
-                    .map((commodityEntry) => _dataGridCell(commodityEntry))
+                DataGridCell<String>(columnName: 'account', value: accountEntry.key),
+                ...accountEntry.value.entries.map((commodityEntry) => _dataGridCell(commodityEntry))
               ],
             ))
         .toList();
   }
 
-  DataGridCell<String> _dataGridCell(
-      MapEntry<String, Commodity> commodityEntry) {
-    var value = '${commodityEntry.value.amount} ${commodityEntry.value.unit}';
+  DataGridCell<String> _dataGridCell(MapEntry<String, Commodity> commodityEntry) {
+    var value = commodityEntry.value.amountFormat();
     return DataGridCell<String>(
       columnName: commodityEntry.key,
       value: value,
@@ -61,9 +57,7 @@ class IncomeStatementDataSource extends DataGridSource {
     return DataGridRowAdapter(
         cells: row.getCells().map<Widget>((e) {
       return Container(
-        alignment: e.columnName == 'account'
-            ? Alignment.centerLeft
-            : Alignment.centerRight,
+        alignment: e.columnName == 'account' ? Alignment.centerLeft : Alignment.centerRight,
         //padding: const EdgeInsets.symmetric(vertical: 4.0, horizontal: 4.0),
         child: Text(
           '  ${e.value.toString()}  ',
