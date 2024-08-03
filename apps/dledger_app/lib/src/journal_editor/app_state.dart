@@ -1,4 +1,5 @@
 import 'package:dledger_app/src/utilities/ledger_file.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
@@ -139,7 +140,9 @@ class AppStateWidgetState extends State<AppStateWidget> {
   }
 
   void updateToggleButtonsStateOnButtonPressed(int index) {
-    print('toggle $index');
+    if (kDebugMode) {
+      print('toggle $index');
+    }
     Map<int, TextStyle> attributeMap = const <int, TextStyle>{
       0: TextStyle(fontWeight: FontWeight.bold),
       1: TextStyle(fontStyle: FontStyle.italic),

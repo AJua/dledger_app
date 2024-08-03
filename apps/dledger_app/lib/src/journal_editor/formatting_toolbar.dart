@@ -8,7 +8,6 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import '../global_variables.dart';
-import 'app_state_manager.dart';
 
 /// The toggle buttons that can be selected.
 enum ToggleButtonsState {
@@ -24,7 +23,6 @@ class FormattingToolbar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final AppStateManager manager = AppStateManager.of(context);
     final Journal journal = context.read<Journal>();
 
     return Padding(

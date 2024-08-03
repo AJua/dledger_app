@@ -54,8 +54,7 @@ class _BasicTextFieldState extends State<BasicTextField> {
   final GlobalKey<BasicTextInputClientState> textInputClientKey =
       GlobalKey<BasicTextInputClientState>();
 
-  BasicTextInputClientState? get _textInputClient =>
-      textInputClientKey.currentState;
+  BasicTextInputClientState? get _textInputClient => textInputClientKey.currentState;
 
   RenderEditable get _renderEditable => _textInputClient!.renderEditable;
 
@@ -75,8 +74,7 @@ class _BasicTextFieldState extends State<BasicTextField> {
       return false;
     }
 
-    if (cause == SelectionChangedCause.longPress ||
-        cause == SelectionChangedCause.scribble) {
+    if (cause == SelectionChangedCause.longPress || cause == SelectionChangedCause.scribble) {
       return true;
     }
 
@@ -87,8 +85,7 @@ class _BasicTextFieldState extends State<BasicTextField> {
     return false;
   }
 
-  void _handleSelectionChanged(
-      TextSelection selection, SelectionChangedCause? cause) {
+  void _handleSelectionChanged(TextSelection selection, SelectionChangedCause? cause) {
     final bool willShowSelectionHandles = _shouldShowSelectionHandles(cause);
     if (willShowSelectionHandles != _showSelectionHandles) {
       setState(() {
@@ -147,8 +144,7 @@ class _BasicTextFieldState extends State<BasicTextField> {
         onPanUpdate: (dragUpdateDetails) => _onDragUpdate(dragUpdateDetails),
         onSecondaryTapDown: (secondaryTapDownDetails) {
           _renderEditable.selectWordsInRange(
-              from: secondaryTapDownDetails.globalPosition,
-              cause: SelectionChangedCause.tap);
+              from: secondaryTapDownDetails.globalPosition, cause: SelectionChangedCause.tap);
           _renderEditable.handleSecondaryTapDown(secondaryTapDownDetails);
           _textInputClient!.hideToolbar();
           _textInputClient!.showToolbar();
@@ -181,30 +177,21 @@ class _BasicTextFieldState extends State<BasicTextField> {
               );
           }
         },
-        onLongPressEnd: (longPressEndDetails) =>
-            _textInputClient!.showToolbar(),
-        onHorizontalDragStart: (dragStartDetails) =>
-            _onDragStart(dragStartDetails),
-        onHorizontalDragUpdate: (dragUpdateDetails) =>
-            _onDragUpdate(dragUpdateDetails),
+        onLongPressEnd: (longPressEndDetails) => _textInputClient!.showToolbar(),
+        onHorizontalDragStart: (dragStartDetails) => _onDragStart(dragStartDetails),
+        onHorizontalDragUpdate: (dragUpdateDetails) => _onDragUpdate(dragUpdateDetails),
         child: SizedBox(
           height: double.infinity,
           width: MediaQuery.of(context).size.width,
-          child: Container(
-            //decoration: BoxDecoration(
-            //  border: Border.all(color: Colors.black),
-            //  borderRadius: const BorderRadius.all(Radius.circular(4.0)),
-            //),
-            child: BasicTextInputClient(
-              key: textInputClientKey,
-              controller: widget.controller,
-              style: widget.style,
-              focusNode: widget.focusNode,
-              selectionControls: _textSelectionControls,
-              onSelectionChanged: _handleSelectionChanged,
-              showSelectionHandles: _showSelectionHandles,
-              contextMenuBuilder: widget.contextMenuBuilder,
-            ),
+          child: BasicTextInputClient(
+            key: textInputClientKey,
+            controller: widget.controller,
+            style: widget.style,
+            focusNode: widget.focusNode,
+            selectionControls: _textSelectionControls,
+            onSelectionChanged: _handleSelectionChanged,
+            showSelectionHandles: _showSelectionHandles,
+            contextMenuBuilder: widget.contextMenuBuilder,
           ),
         ),
       ),

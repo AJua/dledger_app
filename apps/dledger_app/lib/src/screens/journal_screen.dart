@@ -23,8 +23,7 @@ class _JournalScreenState extends State<JournalScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final textTheme =
-        Theme.of(context).textTheme.apply(displayColor: Theme.of(context).colorScheme.onSurface);
+    Theme.of(context).textTheme.apply(displayColor: Theme.of(context).colorScheme.onSurface);
     return const Expanded(
       child: JournalEditor(),
     );

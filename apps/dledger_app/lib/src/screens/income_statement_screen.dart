@@ -39,36 +39,6 @@ class FirstComponentList extends StatelessWidget {
         Expanded(child: IncomeStatementDisplay())
       ],
     );
-    List<Widget> children = [
-      const Actions(),
-      if (!showSecondList) ...[colDivider, const Selection(), colDivider, const TextInputs()],
-    ];
-    List<double?> heights = List.filled(children.length, null);
-
-    // Fully traverse this list before moving on.
-    return FocusTraversalGroup(
-      child: CustomScrollView(
-        slivers: [
-          SliverPadding(
-            padding: showSecondList
-                ? const EdgeInsetsDirectional.only(end: smallSpacing)
-                : EdgeInsets.zero,
-            sliver: SliverList(
-              delegate: BuildSlivers(
-                heights: heights,
-                builder: (context, index) {
-                  return _CacheHeight(
-                    heights: heights,
-                    index: index,
-                    child: children[index],
-                  );
-                },
-              ),
-            ),
-          ),
-        ],
-      ),
-    );
   }
 }
 
@@ -973,33 +943,6 @@ class _NavigationBarsState extends State<NavigationBars> {
     );
 
     // App NavigationBar should get first focus.
-    Widget navigationBar = Focus(
-      autofocus: !(widget.isExampleBar || widget.isBadgeExample),
-      child: NavigationBar(
-        selectedIndex: selectedIndex,
-        onDestinationSelected: (index) {
-          setState(() {
-            selectedIndex = index;
-          });
-          if (!widget.isExampleBar) widget.onSelectItem!(index);
-        },
-        destinations: widget.isExampleBar && widget.isBadgeExample
-            ? barWithBadgeDestinations
-            : widget.isExampleBar
-                ? exampleBarDestinations
-                : appBarDestinations,
-      ),
-    );
-
-    if (widget.isExampleBar && widget.isBadgeExample) {
-      navigationBar = ComponentDecoration(
-          label: 'Badges', tooltipMessage: 'Use Badge or Badge.count', child: navigationBar);
-    } else if (widget.isExampleBar) {
-      navigationBar = ComponentDecoration(
-          label: 'Navigation bar', tooltipMessage: 'Use NavigationBar', child: navigationBar);
-    }
-
-    return navigationBar;
   }
 }
 

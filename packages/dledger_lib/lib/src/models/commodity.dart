@@ -8,9 +8,12 @@ class Commodity extends Equatable {
 
   const Commodity(this.amount, this.unit, this.position, {this.cost});
 
-  String amountFormat() {
-    return amount.toString();
-    return position == UnitPosition.left ? '$unit$amount' : '$amount $unit';
+  String amountFormat({bool isDisplayUnit = false}) {
+    return isDisplayUnit
+        ? position == UnitPosition.left
+            ? '$unit$amount'
+            : '$amount $unit'
+        : amount.toString();
   }
 
   Commodity operator +(Commodity other) {

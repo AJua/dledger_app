@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:flutter/foundation.dart';
 import 'package:path_provider/path_provider.dart';
 
 class LedgerFile {
@@ -40,7 +41,9 @@ class LedgerFile {
 
   Future save(String contents) async {
     final Directory appDocumentsDir = await getApplicationDocumentsDirectory();
-    print(appDocumentsDir.path);
+    if (kDebugMode) {
+      print(appDocumentsDir.path);
+    }
     var file = File('${appDocumentsDir.path}/$fileName');
     await file.writeAsString(contents);
   }
