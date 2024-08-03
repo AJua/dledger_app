@@ -30,6 +30,15 @@ class FirstComponentList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    return Column(
+      children: [
+        Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: SingleChoice(),
+        ),
+        Expanded(child: IncomeStatementDisplay())
+      ],
+    );
     List<Widget> children = [
       const Actions(),
       if (!showSecondList) ...[colDivider, const Selection(), colDivider, const TextInputs()],
@@ -201,10 +210,14 @@ class Actions extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const ComponentGroupDecoration(label: 'Actions', children: <Widget>[
-      SegmentedButtons(),
-      IncomeStatementDisplay(),
-    ]);
+    return Column(
+      children: [
+        IncomeStatementDisplay(),
+        const ComponentGroupDecoration(label: 'Actions', children: <Widget>[
+          SegmentedButtons(),
+        ]),
+      ],
+    );
   }
 }
 

@@ -33,7 +33,7 @@ class IncomeStatementDataSource extends DataGridSource {
   GridColumn _gridColumn(String name, String value) {
     return GridColumn(
         columnName: name,
-        width: 144.0,
+        width: name == 'account' ? 200 : 120.0,
         label: Container(
             //padding: const EdgeInsets.symmetric(vertical: 4.0, horizontal: 8.0),
             alignment: Alignment.center,
