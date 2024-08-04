@@ -1,9 +1,6 @@
 import 'package:collection/collection.dart';
+import 'package:dledger_lib/dledger_lib.dart';
 import 'package:intl/intl.dart';
-
-import '../models/account.dart';
-import '../models/commodity.dart';
-import '../models/posting.dart';
 
 extension PostingsExtension on Iterable<Posting> {
   Map<String, List<Posting>> groupByAccount({required int depth}) {
@@ -15,10 +12,9 @@ extension PostingsExtension on Iterable<Posting> {
     return map;
   }
 
-  Map<Account, Map<String, Commodity>> summarize({String period = 'daily'}) {
+  Map<Account, Map<String, Commodity>> summarize({PeriodType period = PeriodType.daily}) {
     var m2 = groupFoldBy<Account, Map<String, Commodity>>((p) => p.account, (previous, posting) {
-      final DateFormat formatter =
-          period == 'daily' ? DateFormat('yyyy-MM-dd') : DateFormat('yyyy-MM');
+      final DateFormat formatter = _getDateFormat(period);
       var key = formatter.format(posting.date);
       if (previous == null) {
         return {key: posting.commodity};
@@ -31,5 +27,22 @@ extension PostingsExtension on Iterable<Posting> {
       return previous;
     });
     return m2;
+  }
+
+  IncomeStatement getIncomeStatement({int depth = 2, PeriodType type = PeriodType.monthly}) {
+    throw Exception('Not implement yet');
+  }
+
+  DateFormat _getDateFormat(PeriodType period) {
+    switch (period) {
+      case PeriodType.daily:
+        return DateFormat('yyyy-MM-dd');
+      case PeriodType.weekly:
+        throw Exception('weekly is not implemented yet');
+      case PeriodType.monthly:
+        return DateFormat('yyyy-MM');
+      case PeriodType.yearly:
+        return DateFormat('yyyy');
+    }
   }
 }

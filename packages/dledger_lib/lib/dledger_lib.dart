@@ -5,6 +5,7 @@ export './src/extensions/summary_extension.dart';
 export './src/models/account.dart';
 export './src/models/commodity.dart';
 export './src/models/journal.dart';
+export './src/models/period.dart';
 export './src/models/posting.dart';
 export './src/models/posting_dto.dart';
 export './src/models/transaction.dart';

@@ -34,7 +34,7 @@ class _IncomeStatementDisplayState extends State<IncomeStatementDisplay> {
     var statement = IncomeStatementReporter().getIncomeStatement(journal);
     var view = IncomeStatementView(
       {},
-      statement.expenses.summarize(period: 'monthly').expandAccount(2),
+      statement.expenses.summarize(period: PeriodType.monthly).expandAccount(2),
     );
     var dataSource = IncomeStatementDataSource(incomeStatement: view);
     return SfDataGrid(
