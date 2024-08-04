@@ -9,5 +9,5 @@ class Posting {
 
   get primaryAccount => account.hierarchy[0].toLowerCase();
 
-  Posting(this.date, this.account, this.commodity, {this.description});
+  const Posting(this.date, this.account, this.commodity, {this.description});
 }

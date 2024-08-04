@@ -8,7 +8,7 @@ class Commodities extends Equatable {
 
   Commodities._() : _all = {};
 
-  factory Commodities.init() {
+  factory Commodities.empty() {
     return Commodities._();
   }
 
