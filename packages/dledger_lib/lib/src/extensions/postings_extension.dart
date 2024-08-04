@@ -3,9 +3,9 @@ import 'package:dledger_lib/dledger_lib.dart';
 import 'package:intl/intl.dart';
 
 extension PostingsExtension on Iterable<Posting> {
-  Statements toStatements(PeriodType type) {
+  FinancialStats toStatements(PeriodType type) {
     return fold(
-      Statements.empty(type),
+      FinancialStats.empty(type),
       (statements, posting) => statements..add(posting),
     );
   }

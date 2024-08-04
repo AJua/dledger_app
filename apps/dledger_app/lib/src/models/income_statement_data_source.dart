@@ -5,7 +5,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:syncfusion_flutter_datagrid/datagrid.dart';
 
 class IncomeStatementDataSource extends DataGridSource {
-  IncomeStatementDataSource(Map<String, Statements> statements) {
+  IncomeStatementDataSource(Map<String, FinancialStats> statements) {
     _columns = [
       _gridColumn('account', ''),
       ...statements['expenses']!

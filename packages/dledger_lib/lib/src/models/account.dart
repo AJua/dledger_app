@@ -1,19 +1,21 @@
 import 'package:equatable/equatable.dart';
 
 class Account extends Equatable {
-  final List<String> _accountHierarchy;
+  final List<String> _hierarchy;
 
-  List<String> get hierarchy => _accountHierarchy;
+  List<String> get hierarchy => _hierarchy;
 
-  String get category => _accountHierarchy.first.toLowerCase();
+  String get mainCategory => _hierarchy.first.toLowerCase();
 
-  const Account(this._accountHierarchy);
+  Account get upperAccounts => Account(_hierarchy.sublist(0, _hierarchy.length - 1));
+
+  const Account(this._hierarchy);
 
   @override
   String toString() {
-    return 'Account("accountHierarchy": ${_accountHierarchy.join(' > ')})})';
+    return 'Account("hierarchy": ${_hierarchy.join(' > ')})})';
   }
 
   @override
-  List<Object?> get props => [_accountHierarchy];
+  List<Object?> get props => [_hierarchy];
 }

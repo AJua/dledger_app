@@ -34,4 +34,6 @@ class Commodities extends Equatable {
     }
     return result;
   }
+
+  double get totalAmount => _all.values.fold(0.0, (v, commodity) => v + commodity.amount);
 }

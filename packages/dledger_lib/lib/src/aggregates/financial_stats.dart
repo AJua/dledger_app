@@ -1,7 +1,7 @@
 import 'package:dledger_lib/dledger_lib.dart';
 import 'package:equatable/equatable.dart';
 
-class Statements extends Equatable {
+class FinancialStats extends Equatable {
   final Map<Account, Map<StatementPeriod, Commodities>> _all;
   final PeriodType _periodType;
 
@@ -11,12 +11,12 @@ class Statements extends Equatable {
 
   Map<Account, Map<StatementPeriod, Commodities>> get all => _all;
 
-  Statements._(this._periodType)
+  FinancialStats._(this._periodType)
       : _all = {},
         _periods = {};
 
-  factory Statements.empty(PeriodType type) {
-    return Statements._(type);
+  factory FinancialStats.empty(PeriodType type) {
+    return FinancialStats._(type);
   }
 
   @override

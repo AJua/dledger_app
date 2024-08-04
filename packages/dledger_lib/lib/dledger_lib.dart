@@ -1,7 +1,7 @@
 library dledger_lib;
 
 export './src/aggregates/commodities.dart';
-export './src/aggregates/statements.dart';
+export './src/aggregates/financial_stats.dart';
 export './src/extensions/postings_extension.dart';
 export './src/extensions/summary_extension.dart';
 export './src/models/account.dart';

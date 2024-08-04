@@ -35,10 +35,10 @@ class _IncomeStatementDisplayState extends State<IncomeStatementDisplay> {
       [],
       (postings, transaction) => [...transaction.postings, ...postings],
     );
-    var result = allPostings.groupFoldBy<String, Statements>((posting) => posting.account.category,
-        (previous, posting) {
+    var result = allPostings.groupFoldBy<String, FinancialStats>(
+        (posting) => posting.account.mainCategory, (previous, posting) {
       if (previous == null) {
-        return Statements.empty(PeriodType.monthly)..add(posting);
+        return FinancialStats.empty(PeriodType.monthly)..add(posting);
       }
       return previous..add(posting);
     });
