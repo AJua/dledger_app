@@ -15,7 +15,7 @@ class IncomeStatementDataSource extends DataGridSource {
           .value
           .keys
           // sort period
-          .sorted((key1, key2) => -key1.date.compareTo(key2.date))
+          .sorted((key1, key2) => key1.date.compareTo(key2.date))
           .map((key) => _gridColumn(key.toString(), key.toString()))
     ];
 
@@ -35,7 +35,7 @@ class IncomeStatementDataSource extends DataGridSource {
                     columnName: 'account', value: accountEntry.key.hierarchy.sublist(1).join(':')),
                 ...accountEntry.value.entries
                     // sort period
-                    .sorted((entry1, entry2) => -entry1.key.date.compareTo(entry2.key.date))
+                    .sorted((entry1, entry2) => entry1.key.date.compareTo(entry2.key.date))
                     .map((commodityEntry) => _dataGridCell(commodityEntry))
               ],
             ))
@@ -53,7 +53,7 @@ class IncomeStatementDataSource extends DataGridSource {
   GridColumn _gridColumn(String name, String value) {
     return GridColumn(
         columnName: name,
-        width: name == 'account' ? 225 : 100.0,
+        width: name == 'account' ? 240 : 100.0,
         label: Container(
             //padding: const EdgeInsets.symmetric(vertical: 4.0, horizontal: 8.0),
             alignment: Alignment.center,
