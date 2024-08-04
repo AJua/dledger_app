@@ -10,11 +10,9 @@ main() {
 
     statements.add(p);
 
-    //expect(statements.all, {});
-
-    expect(
-        Set.from([StatementPeriod(DateTime(2024, 8, 1), PeriodType.monthly)]
-          ..add(StatementPeriod(DateTime(2024, 8, 3), PeriodType.monthly))),
-        equals(Set.from([StatementPeriod(DateTime(2024, 8, 2), PeriodType.monthly)])));
+    expect({
+      StatementPeriod(DateTime(2024, 8, 1), PeriodType.monthly),
+      StatementPeriod(DateTime(2024, 8, 3), PeriodType.monthly)
+    }, equals({StatementPeriod(DateTime(2024, 8, 2), PeriodType.monthly)}));
   });
 }
