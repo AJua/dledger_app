@@ -1,4 +1,4 @@
-import 'package:dledger_app/src/models/income_statement.dart';
+import 'package:collection/collection.dart';
 import 'package:dledger_app/src/models/income_statement_data_source.dart';
 import 'package:dledger_lib/dledger_lib.dart';
 import 'package:flutter/cupertino.dart';
@@ -31,12 +31,19 @@ class _IncomeStatementDisplayState extends State<IncomeStatementDisplay> {
     if (!journal.isLoaded) {
       return const Text('loading...');
     }
-    var statement = IncomeStatementReporter().getIncomeStatement(journal);
-    var view = IncomeStatementView(
-      {},
-      statement.expenses.summarize(period: PeriodType.monthly).expandAccount(2),
+    var allPostings = journal.transactions.fold<Iterable<Posting>>(
+      [],
+      (postings, transaction) => [...transaction.postings, ...postings],
     );
-    var dataSource = IncomeStatementDataSource(incomeStatement: view);
+    var result = allPostings.groupFoldBy<String, Statements>((posting) => posting.account.category,
+        (previous, posting) {
+      if (previous == null) {
+        return Statements.empty(PeriodType.monthly)..add(posting);
+      }
+      return previous..add(posting);
+    });
+
+    var dataSource = IncomeStatementDataSource(result);
     return SfDataGrid(
       source: dataSource,
       headerRowHeight: 32,

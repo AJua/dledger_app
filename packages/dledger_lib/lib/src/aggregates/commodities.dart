@@ -23,4 +23,15 @@ class Commodities extends Equatable {
       _all[unit] = commodity;
     }
   }
+
+  Commodities operator +(Commodities other) {
+    var result = Commodities.empty();
+    for (var c in all.values) {
+      result.add(c);
+    }
+    for (var c in other.all.values) {
+      result.add(c);
+    }
+    return result;
+  }
 }

@@ -3,6 +3,13 @@ import 'package:dledger_lib/dledger_lib.dart';
 import 'package:intl/intl.dart';
 
 extension PostingsExtension on Iterable<Posting> {
+  Statements toStatements(PeriodType type) {
+    return fold(
+      Statements.empty(type),
+      (statements, posting) => statements..add(posting),
+    );
+  }
+
   Map<String, List<Posting>> groupByAccount({required int depth}) {
     var map = groupListsBy((r) => r.account.hierarchy[1]);
     for (int i = 2; i <= depth; i++) {

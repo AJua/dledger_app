@@ -1,5 +1,4 @@
 import 'package:dledger_lib/dledger_lib.dart';
-import 'package:dledger_lib/src/aggregates/commodities.dart';
 import 'package:equatable/equatable.dart';
 
 class Statements extends Equatable {
