@@ -14,9 +14,14 @@ main() {
 
     expect(() => c1 + c2, throwsException);
   });
-  test('string format', () {
-    expect(const Commodity(1, r'$', UnitPosition.left).amountFormat(), r'$1.0');
-    expect(const Commodity(1, r'USD', UnitPosition.right).amountFormat(),
-        r'1.0 USD');
+  group('amount display', () {
+    test(r'using money symbol like $, €, ¥', () {
+      const commodity = Commodity(1, r'$', UnitPosition.left);
+      expect(commodity.amountFormat(isDisplayUnit: true), r'$1.0');
+    });
+    test('using ISO currency', () {
+      const commodity = Commodity(1, r'USD', UnitPosition.right);
+      expect(commodity.amountFormat(isDisplayUnit: true), '1.0 USD');
+    });
   });
 }
