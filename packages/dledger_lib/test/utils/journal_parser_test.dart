@@ -46,7 +46,7 @@ void main() {
   test('parseAccount', () {
     var parser = JournalParser();
     var account = parser.parseAccount('Assets:Cash');
-    expect(account.mainCategory, 'Assets');
+    expect(account.mainCategory, 'assets');
   });
   group('parsePosting', () {
     test('posting with Commodity', () {

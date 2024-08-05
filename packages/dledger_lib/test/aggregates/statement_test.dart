@@ -4,8 +4,8 @@ import 'package:flutter_test/flutter_test.dart';
 
 main() {
   test('different upper account cannot compare', () {
-    var statement1 = Statement(const Account(['expenses', 'clothes', 'jeans']), {});
-    var statement2 = Statement(const Account(['expenses', 'foods', 'lunch']), {});
+    var statement1 = const Statement(Account(['expenses', 'clothes', 'jeans']), {});
+    var statement2 = const Statement(Account(['expenses', 'foods', 'lunch']), {});
     expect(() => statement1.compareTo(statement2), throwsException);
   });
   test('add a single posting', () {

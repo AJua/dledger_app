@@ -13,6 +13,7 @@ class IncomeStatementDataSource extends DataGridSource {
           .entries
           .first
           .value
+          .details
           .keys
           // sort period
           .sorted((key1, key2) => key1.date.compareTo(key2.date))
@@ -23,17 +24,19 @@ class IncomeStatementDataSource extends DataGridSource {
         .all
         .entries
         // sort account
-        .sorted((e1, e2) => e2.value.values
+        .sorted((e1, e2) => e2.value.details.values
             .fold(Commodities.empty(), (c1, c2) => c1 + c2)
             .all['TWD']!
             .amount
-            .compareTo(
-                e1.value.values.fold(Commodities.empty(), (c1, c2) => c1 + c2).all['TWD']!.amount))
+            .compareTo(e1.value.details.values
+                .fold(Commodities.empty(), (c1, c2) => c1 + c2)
+                .all['TWD']!
+                .amount))
         .map((accountEntry) => DataGridRow(
               cells: [
                 DataGridCell<String>(
                     columnName: 'account', value: accountEntry.key.displayName(isTree: true)),
-                ...accountEntry.value.entries
+                ...accountEntry.value.details.entries
                     // sort period
                     .sorted((entry1, entry2) => entry1.key.date.compareTo(entry2.key.date))
                     .map((commodityEntry) => _dataGridCell(commodityEntry))
