@@ -19,24 +19,33 @@ class IncomeStatementDataSource extends DataGridSource {
           .sorted((key1, key2) => key1.date.compareTo(key2.date))
           .map((key) => _gridColumn(key.toString(), key.toString()))
     ];
-
+    var expenses = statements['expenses']!.all;
     _rows = statements['expenses']!
         .all
-        .entries
+        .values
         // sort account
-        .sorted((e1, e2) => e2.value.details.values
-            .fold(Commodities.empty(), (c1, c2) => c1 + c2)
-            .all['TWD']!
-            .amount
-            .compareTo(e1.value.details.values
-                .fold(Commodities.empty(), (c1, c2) => c1 + c2)
-                .all['TWD']!
-                .amount))
+        .sorted((s2, s1) {
+          for (var i = 2;
+              i <= s1.account.hierarchy.length && i <= s2.account.hierarchy.length;
+              i++) {
+            var result = expenses[Account(s1.account.hierarchy.sublist(0, i))]!
+                .compareTo(expenses[Account(s2.account.hierarchy.sublist(0, i))]!);
+            if (result == 0) {
+              continue;
+            }
+            return result;
+          }
+          var result = s1.account.hierarchy.length.compareTo(s2.account.hierarchy.length);
+          if (result == 0) {
+            return s1.compareTo(s2);
+          }
+          return -result;
+        })
         .map((accountEntry) => DataGridRow(
               cells: [
                 DataGridCell<String>(
-                    columnName: 'account', value: accountEntry.key.displayName(isTree: true)),
-                ...accountEntry.value.details.entries
+                    columnName: 'account', value: accountEntry.account.displayName(isTree: true)),
+                ...accountEntry.details.entries
                     // sort period
                     .sorted((entry1, entry2) => entry1.key.date.compareTo(entry2.key.date))
                     .map((commodityEntry) => _dataGridCell(commodityEntry))

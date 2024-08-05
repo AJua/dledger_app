@@ -19,7 +19,7 @@ class Account extends Equatable {
 
   @override
   String toString() {
-    return 'Account("hierarchy": ${_hierarchy.join(' > ')})})';
+    return 'Account(${_hierarchy.join(' > ')})})';
   }
 
   @override
