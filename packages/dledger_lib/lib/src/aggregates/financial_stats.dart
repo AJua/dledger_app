@@ -6,23 +6,34 @@ class FinancialStats extends Equatable {
   final PeriodType _periodType;
 
   final Set<StatementPeriod> _periods;
+  final bool _isTree;
 
   Iterable<StatementPeriod> get periods => _periods;
 
   Map<Account, Map<StatementPeriod, Commodities>> get all => _all;
 
-  FinancialStats._(this._periodType)
+  FinancialStats._(this._periodType, this._isTree)
       : _all = {},
         _periods = {};
 
-  factory FinancialStats.empty(PeriodType type) {
-    return FinancialStats._(type);
+  factory FinancialStats.empty(PeriodType type, {bool isTree = false}) {
+    return FinancialStats._(type, isTree);
   }
 
   @override
   List<Object?> get props => [all];
 
   void add(Posting posting) {
+    if (_isTree) {
+      for (var p in posting.tree) {
+        _add(p);
+      }
+    } else {
+      _add(posting);
+    }
+  }
+
+  void _add(Posting posting) {
     var period = StatementPeriod(posting.date, _periodType);
     _periods.add(period);
     if (_all.containsKey(posting.account)) {

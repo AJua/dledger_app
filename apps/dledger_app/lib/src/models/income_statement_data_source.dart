@@ -32,7 +32,7 @@ class IncomeStatementDataSource extends DataGridSource {
         .map((accountEntry) => DataGridRow(
               cells: [
                 DataGridCell<String>(
-                    columnName: 'account', value: accountEntry.key.hierarchy.sublist(1).join(':')),
+                    columnName: 'account', value: accountEntry.key.displayName(isTree: true)),
                 ...accountEntry.value.entries
                     // sort period
                     .sorted((entry1, entry2) => entry1.key.date.compareTo(entry2.key.date))
@@ -53,7 +53,7 @@ class IncomeStatementDataSource extends DataGridSource {
   GridColumn _gridColumn(String name, String value) {
     return GridColumn(
         columnName: name,
-        width: name == 'account' ? 240 : 100.0,
+        width: name == 'account' ? 188 : 100.0,
         label: Container(
             //padding: const EdgeInsets.symmetric(vertical: 4.0, horizontal: 8.0),
             alignment: Alignment.center,

@@ -11,6 +11,12 @@ class Account extends Equatable {
 
   const Account(this._hierarchy);
 
+  String displayName({required bool isTree}) {
+    return isTree
+        ? '${upperAccount.hierarchy.map((_) => '  ').join('')}${_hierarchy.last}'
+        : _hierarchy.join(':');
+  }
+
   @override
   String toString() {
     return 'Account("hierarchy": ${_hierarchy.join(' > ')})})';
