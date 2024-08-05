@@ -19,6 +19,6 @@ class Statement implements Comparable<Statement> {
   }
 
   bool _isComparable(Statement other) {
-    return account.upperAccounts == other.account.upperAccounts;
+    return account.upperAccount == other.account.upperAccount;
   }
 }

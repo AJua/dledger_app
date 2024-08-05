@@ -7,7 +7,7 @@ class Account extends Equatable {
 
   String get mainCategory => _hierarchy.first.toLowerCase();
 
-  Account get upperAccounts => Account(_hierarchy.sublist(0, _hierarchy.length - 1));
+  Account get upperAccount => Account(_hierarchy.sublist(0, _hierarchy.length - 1));
 
   const Account(this._hierarchy);
 
