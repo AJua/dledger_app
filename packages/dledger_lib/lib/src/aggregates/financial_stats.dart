@@ -1,8 +1,6 @@
 import 'package:dledger_lib/dledger_lib.dart';
 import 'package:equatable/equatable.dart';
 
-import 'statement.dart';
-
 class FinancialStats extends Equatable {
   final Map<Account, Statement> _all;
   final PeriodType _periodType;

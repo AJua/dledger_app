@@ -19,14 +19,32 @@ class IncomeStatementDataSource extends DataGridSource {
           .sorted((key1, key2) => key1.date.compareTo(key2.date))
           .map((key) => _gridColumn(key.toString(), key.toString()))
     ];
+
+    var income = statements['income']!.all[const Account(['Income'])]!;
+    var expense = statements['expenses']!.all[const Account(['Expenses'])]!;
+    Map<StatementPeriod, Commodities> details = {};
+    for (var period in income.details.keys) {
+      details[period] = income.details[period]! + expense.details[period]!;
+    }
+    var total = Statement(const Account(['Total']), details);
     _rows = [
-      ...getRows(statements, 'income'),
-      ...getRows(statements, 'expenses'),
+      ...getRows(statements, 'income', true),
+      ...getRows(statements, 'expenses', false),
+      DataGridRow(
+        cells: [
+          const DataGridCell<String>(columnName: 'account', value: 'Total'),
+          ...total.details.entries
+              // sort period
+              .sorted((entry1, entry2) =>
+                  entry1.key.date.compareTo(entry2.key.date))
+              .map((commodityEntry) => _dataGridCell(commodityEntry, true))
+        ],
+      )
     ];
   }
 
   List<DataGridRow> getRows(
-      Map<String, FinancialStats> statements, String category) {
+      Map<String, FinancialStats> statements, String category, bool isInverse) {
     var rows = statements[category]!
         .all
         .values
@@ -43,7 +61,7 @@ class IncomeStatementDataSource extends DataGridSource {
             if (result == 0) {
               continue;
             }
-            return result;
+            return isInverse ? -result : result;
           }
           var result = s1.account.hierarchy.length
               .compareTo(s2.account.hierarchy.length);
@@ -61,7 +79,8 @@ class IncomeStatementDataSource extends DataGridSource {
                     // sort period
                     .sorted((entry1, entry2) =>
                         entry1.key.date.compareTo(entry2.key.date))
-                    .map((commodityEntry) => _dataGridCell(commodityEntry))
+                    .map((commodityEntry) =>
+                        _dataGridCell(commodityEntry, isInverse))
               ],
             ))
         .toList();
@@ -69,10 +88,10 @@ class IncomeStatementDataSource extends DataGridSource {
   }
 
   DataGridCell<String> _dataGridCell(
-      MapEntry<StatementPeriod, Commodities> commodityEntry) {
-    var value =
-        commodityEntry.value.all['TWD']?.amountFormat(isDisplayUnit: false) ??
-            '0';
+      MapEntry<StatementPeriod, Commodities> commodityEntry, bool isInverse) {
+    var value = commodityEntry.value.all['TWD']
+            ?.amountFormat(isDisplayUnit: false, isInverse: isInverse) ??
+        '0';
     return DataGridCell<String>(
       columnName: commodityEntry.key.toString(),
       value: value,
@@ -113,9 +132,10 @@ class IncomeStatementDataSource extends DataGridSource {
         child: Text(
           '  ${e.value.toString()}  ',
           style: GoogleFonts.robotoMono(
-              fontWeight: (row.getCells().first.value as String).startsWith(' ')
-                  ? FontWeight.normal
-                  : FontWeight.bold),
+            fontWeight: (row.getCells().first.value as String).startsWith(' ')
+                ? FontWeight.normal
+                : FontWeight.w800,
+          ),
           softWrap: false,
         ),
       );

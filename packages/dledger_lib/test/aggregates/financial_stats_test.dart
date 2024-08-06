@@ -1,5 +1,4 @@
 import 'package:dledger_lib/dledger_lib.dart';
-import 'package:dledger_lib/src/aggregates/statement.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 main() {
@@ -18,8 +17,10 @@ main() {
     expect(
       statements.all,
       equals({
-        account: Statement(account,
-            {StatementPeriod(p.date, PeriodType.daily): Commodities.empty()..add(commodity)})
+        account: Statement(account, {
+          StatementPeriod(p.date, PeriodType.daily): Commodities.empty()
+            ..add(commodity)
+        })
       }),
     );
   });
@@ -37,10 +38,14 @@ main() {
     expect(
       statements.all,
       equals({
-        account1: Statement(account1,
-            {StatementPeriod(p1.date, PeriodType.daily): Commodities.empty()..add(commodity)}),
-        account2: Statement(account2,
-            {StatementPeriod(p2.date, PeriodType.daily): Commodities.empty()..add(commodity)})
+        account1: Statement(account1, {
+          StatementPeriod(p1.date, PeriodType.daily): Commodities.empty()
+            ..add(commodity)
+        }),
+        account2: Statement(account2, {
+          StatementPeriod(p2.date, PeriodType.daily): Commodities.empty()
+            ..add(commodity)
+        })
       }),
     );
   });
@@ -81,8 +86,10 @@ main() {
       statements.all,
       equals({
         account: Statement(account, {
-          StatementPeriod(p1.date, PeriodType.daily): Commodities.empty()..add(commodity1),
-          StatementPeriod(p2.date, PeriodType.daily): Commodities.empty()..add(commodity2),
+          StatementPeriod(p1.date, PeriodType.daily): Commodities.empty()
+            ..add(commodity1),
+          StatementPeriod(p2.date, PeriodType.daily): Commodities.empty()
+            ..add(commodity2),
         }),
       }),
     );
@@ -103,12 +110,14 @@ main() {
       statements.all,
       equals({
         account1: Statement(account1, {
-          StatementPeriod(p1.date, PeriodType.daily): Commodities.empty()..add(commodity1),
+          StatementPeriod(p1.date, PeriodType.daily): Commodities.empty()
+            ..add(commodity1),
           StatementPeriod(p2.date, PeriodType.daily): Commodities.empty(),
         }),
         account2: Statement(account2, {
           StatementPeriod(p1.date, PeriodType.daily): Commodities.empty(),
-          StatementPeriod(p2.date, PeriodType.daily): Commodities.empty()..add(commodity2),
+          StatementPeriod(p2.date, PeriodType.daily): Commodities.empty()
+            ..add(commodity2),
         }),
       }),
     );

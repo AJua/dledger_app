@@ -16,10 +16,12 @@ class Statement extends Equatable implements Comparable<Statement> {
   int compareTo(Statement other) {
     if (!_isComparable(other)) {
       throw Exception(
-          'Statement comparison need have same upper accounts, ${this.account} ${other.account}');
+          'Statement comparison need have same upper accounts, $account ${other.account}');
     }
-    return _details.values.fold(0.0, (v, commodities) => v + commodities.totalAmount).compareTo(
-        other._details.values.fold(0.0, (v, commodities) => v + commodities.totalAmount));
+    return _details.values
+        .fold(0.0, (v, commodities) => v + commodities.totalAmount)
+        .compareTo(other._details.values
+            .fold(0.0, (v, commodities) => v + commodities.totalAmount));
   }
 
   bool _isComparable(Statement other) {
