@@ -8,7 +8,7 @@ class IncomeStatementDataSource extends DataGridSource {
   IncomeStatementDataSource(Map<String, FinancialStats> statements) {
     _columns = [
       _gridColumn('account', ''),
-      ...statements['expenses']!
+      ...statements['income']!
           .all
           .entries
           .first
@@ -19,23 +19,34 @@ class IncomeStatementDataSource extends DataGridSource {
           .sorted((key1, key2) => key1.date.compareTo(key2.date))
           .map((key) => _gridColumn(key.toString(), key.toString()))
     ];
-    var expenses = statements['expenses']!.all;
-    _rows = statements['expenses']!
+    _rows = [
+      ...getRows(statements, 'income'),
+      ...getRows(statements, 'expenses'),
+    ];
+  }
+
+  List<DataGridRow> getRows(
+      Map<String, FinancialStats> statements, String category) {
+    var rows = statements[category]!
         .all
         .values
         // sort account
         .sorted((s2, s1) {
           for (var i = 2;
-              i <= s1.account.hierarchy.length && i <= s2.account.hierarchy.length;
+              i <= s1.account.hierarchy.length &&
+                  i <= s2.account.hierarchy.length;
               i++) {
-            var result = expenses[Account(s1.account.hierarchy.sublist(0, i))]!
-                .compareTo(expenses[Account(s2.account.hierarchy.sublist(0, i))]!);
+            var result = statements[category]!
+                .all[Account(s1.account.hierarchy.sublist(0, i))]!
+                .compareTo(statements[category]!
+                    .all[Account(s2.account.hierarchy.sublist(0, i))]!);
             if (result == 0) {
               continue;
             }
             return result;
           }
-          var result = s1.account.hierarchy.length.compareTo(s2.account.hierarchy.length);
+          var result = s1.account.hierarchy.length
+              .compareTo(s2.account.hierarchy.length);
           if (result == 0) {
             return s1.compareTo(s2);
           }
@@ -44,18 +55,24 @@ class IncomeStatementDataSource extends DataGridSource {
         .map((accountEntry) => DataGridRow(
               cells: [
                 DataGridCell<String>(
-                    columnName: 'account', value: accountEntry.account.displayName(isTree: true)),
+                    columnName: 'account',
+                    value: accountEntry.account.displayName(isTree: true)),
                 ...accountEntry.details.entries
                     // sort period
-                    .sorted((entry1, entry2) => entry1.key.date.compareTo(entry2.key.date))
+                    .sorted((entry1, entry2) =>
+                        entry1.key.date.compareTo(entry2.key.date))
                     .map((commodityEntry) => _dataGridCell(commodityEntry))
               ],
             ))
         .toList();
+    return rows;
   }
 
-  DataGridCell<String> _dataGridCell(MapEntry<StatementPeriod, Commodities> commodityEntry) {
-    var value = commodityEntry.value.all['TWD']?.amountFormat(isDisplayUnit: false) ?? '0';
+  DataGridCell<String> _dataGridCell(
+      MapEntry<StatementPeriod, Commodities> commodityEntry) {
+    var value =
+        commodityEntry.value.all['TWD']?.amountFormat(isDisplayUnit: false) ??
+            '0';
     return DataGridCell<String>(
       columnName: commodityEntry.key.toString(),
       value: value,
@@ -89,11 +106,16 @@ class IncomeStatementDataSource extends DataGridSource {
     return DataGridRowAdapter(
         cells: row.getCells().map<Widget>((e) {
       return Container(
-        alignment: e.columnName == 'account' ? Alignment.centerLeft : Alignment.centerRight,
+        alignment: e.columnName == 'account'
+            ? Alignment.centerLeft
+            : Alignment.centerRight,
         //padding: const EdgeInsets.symmetric(vertical: 4.0, horizontal: 4.0),
         child: Text(
           '  ${e.value.toString()}  ',
-          style: GoogleFonts.robotoMono(),
+          style: GoogleFonts.robotoMono(
+              fontWeight: (row.getCells().first.value as String).startsWith(' ')
+                  ? FontWeight.normal
+                  : FontWeight.bold),
           softWrap: false,
         ),
       );

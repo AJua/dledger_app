@@ -38,10 +38,16 @@ class _IncomeStatementDisplayState extends State<IncomeStatementDisplay> {
     var result = allPostings.groupFoldBy<String, FinancialStats>(
         (posting) => posting.account.mainCategory, (previous, posting) {
       if (previous == null) {
-        return FinancialStats.empty(PeriodType.monthly, isTree: true)..add(posting);
+        return FinancialStats.empty(PeriodType.monthly, isTree: true)
+          ..add(posting);
       }
       return previous..add(posting);
     });
+    var periods = result.entries.fold<Set<StatementPeriod>>(
+        {}, (ps, s) => ps..addAll(s.value.distinctPeriods));
+    for (var entry in result.entries) {
+      entry.value.fillNullValueWithEmpty(periods);
+    }
 
     var dataSource = IncomeStatementDataSource(result);
     return SfDataGrid(
