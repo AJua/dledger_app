@@ -4,26 +4,32 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:syncfusion_flutter_datagrid/datagrid.dart';
 
-class IncomeStatementDataSource extends DataGridSource {
-  IncomeStatementDataSource(IncomeStatement incomeStatement) {
+class IncomeStatementDataSourceLegacy extends DataGridSource {
+  IncomeStatementDataSourceLegacy(Map<String, FinancialStats> statements) {
     _columns = [
       _gridColumn('account', ''),
-      ...incomeStatement.incomes!.all.entries.first.value.details.keys
+      ...statements['income']!
+          .all
+          .entries
+          .first
+          .value
+          .details
+          .keys
           // sort period
           .sorted((key1, key2) => key1.date.compareTo(key2.date))
           .map((key) => _gridColumn(key.toString(), key.toString()))
     ];
 
-    var income = incomeStatement.incomes!.all[const Account(['Income'])]!;
-    var expense = incomeStatement.expenses!.all[const Account(['Expenses'])]!;
+    var income = statements['income']!.all[const Account(['Income'])]!;
+    var expense = statements['expenses']!.all[const Account(['Expenses'])]!;
     Map<StatementPeriod, Commodities> details = {};
     for (var period in income.details.keys) {
       details[period] = income.details[period]! + expense.details[period]!;
     }
     var total = Statement(const Account(['Total']), details);
     _rows = [
-      ...getRows(incomeStatement.incomes, true),
-      ...getRows(incomeStatement.expenses, false),
+      ...getRows(statements, 'income', true),
+      ...getRows(statements, 'expenses', false),
       DataGridRow(
         cells: [
           const DataGridCell<String>(columnName: 'account', value: 'Total'),
@@ -37,18 +43,21 @@ class IncomeStatementDataSource extends DataGridSource {
     ];
   }
 
-  List<DataGridRow> getRows(FinancialStats? stats, bool isInverse) {
-    var rows = stats!.all.values
+  List<DataGridRow> getRows(
+      Map<String, FinancialStats> statements, String category, bool isInverse) {
+    var rows = statements[category]!
+        .all
+        .values
         // sort account
         .sorted((s2, s1) {
           for (var i = 2;
               i <= s1.account.hierarchy.length &&
                   i <= s2.account.hierarchy.length;
               i++) {
-            var result = stats!
+            var result = statements[category]!
                 .all[Account(s1.account.hierarchy.sublist(0, i))]!
-                .compareTo(
-                    stats!.all[Account(s2.account.hierarchy.sublist(0, i))]!);
+                .compareTo(statements[category]!
+                    .all[Account(s2.account.hierarchy.sublist(0, i))]!);
             if (result == 0) {
               continue;
             }

@@ -49,7 +49,10 @@ class _IncomeStatementDisplayState extends State<IncomeStatementDisplay> {
       entry.value.fillNullValueWithEmpty(periods);
     }
 
-    var dataSource = IncomeStatementDataSource(result);
+    var incomeStatement = journal.getIncomeStatement();
+
+    //var dataSource = IncomeStatementDataSourceLegacy(result);
+    var dataSource = IncomeStatementDataSource(incomeStatement);
     return SfDataGrid(
       source: dataSource,
       headerRowHeight: 32,

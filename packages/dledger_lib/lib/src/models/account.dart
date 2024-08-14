@@ -7,7 +7,18 @@ class Account extends Equatable {
 
   String get mainCategory => _hierarchy.first.toLowerCase();
 
-  Account get upperAccount => Account(_hierarchy.sublist(0, _hierarchy.length - 1));
+  Account get upperAccount =>
+      Account(_hierarchy.sublist(0, _hierarchy.length - 1));
+
+  AccountCategory get category {
+    var rootAccount = _hierarchy.first.toLowerCase();
+    for (var category in AccountCategory.values) {
+      if (rootAccount == category.name) {
+        return category;
+      }
+    }
+    return AccountCategory.unknown;
+  }
 
   const Account(this._hierarchy);
 
@@ -23,5 +34,13 @@ class Account extends Equatable {
   }
 
   @override
-  List<Object?> get props => [_hierarchy];
+  List<Object?> get props => [_hierarchy.map((a) => a.toLowerCase())];
+}
+
+enum AccountCategory {
+  assets,
+  liabilities,
+  income,
+  expenses,
+  unknown,
 }

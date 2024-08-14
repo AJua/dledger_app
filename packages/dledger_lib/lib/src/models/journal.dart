@@ -1,5 +1,11 @@
+import 'package:collection/collection.dart';
+import 'package:dledger_lib/src/aggregates/financial_stats.dart';
+import 'package:dledger_lib/src/reports/income_statement.dart';
 import 'package:flutter/foundation.dart';
 
+import 'account.dart';
+import 'posting.dart';
+import 'statement_period.dart';
 import 'transaction.dart';
 
 class Journal with ChangeNotifier, DiagnosticableTreeMixin {
@@ -9,6 +15,14 @@ class Journal with ChangeNotifier, DiagnosticableTreeMixin {
   List<Transaction> _transactions;
 
   List<Transaction> get transactions => _transactions.toList(growable: false);
+
+  Iterable<Posting> get postings => _transactions.fold<Iterable<Posting>>(
+      [],
+      (
+        postings,
+        transaction,
+      ) =>
+          [...transaction.postings, ...postings]);
 
   Journal._(this._transactions);
 
@@ -32,5 +46,26 @@ class Journal with ChangeNotifier, DiagnosticableTreeMixin {
     _transactions = transactions;
     _isLoaded = true;
     notifyListeners();
+  }
+
+  IncomeStatement getIncomeStatement(
+      {DateTime? begin,
+      DateTime? end,
+      PeriodType type = PeriodType.monthly,
+      num depth = 3}) {
+    var result = postings.groupFoldBy<AccountCategory, FinancialStats>(
+        (posting) => posting.account.category, (previous, posting) {
+      if (previous == null) {
+        return FinancialStats.empty(PeriodType.monthly, isTree: true)
+          ..add(posting);
+      }
+      return previous..add(posting);
+    });
+    var periods = result.entries.fold<Set<StatementPeriod>>(
+        {}, (ps, s) => ps..addAll(s.value.distinctPeriods));
+    for (var entry in result.entries) {
+      entry.value.fillNullValueWithEmpty(periods);
+    }
+    return IncomeStatement(result);
   }
 }

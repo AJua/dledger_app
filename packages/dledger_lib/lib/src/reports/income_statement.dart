@@ -1,12 +1,12 @@
-import '../models/posting.dart';
+import '../aggregates/financial_stats.dart';
+import '../models/account.dart';
 
 class IncomeStatement {
-  DateTime statementDate;
-  Iterable<Posting> incomes;
-  Iterable<Posting> expenses;
+  final Map<AccountCategory, FinancialStats> _statements;
 
-  IncomeStatement(
-      {required this.statementDate,
-      required this.incomes,
-      required this.expenses});
+  IncomeStatement(this._statements);
+
+  FinancialStats? get incomes => _statements[AccountCategory.income];
+
+  FinancialStats? get expenses => _statements[AccountCategory.expenses];
 }

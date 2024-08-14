@@ -127,7 +127,7 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
 
   PreferredSizeWidget createAppBar() {
     return AppBar(
-      title: const Text('Material 3'),
+      title: const Text('dledger'),
       actions: !showMediumSizeLayout && !showLargeSizeLayout
           ? [
               _BrightnessButton(
