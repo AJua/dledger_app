@@ -5,7 +5,7 @@ import 'package:intl/intl.dart';
 extension PostingsExtension on Iterable<Posting> {
   FinancialStats toStatements(PeriodType type) {
     return fold(
-      FinancialStats.empty(type),
+      FinancialStats.empty(type, depth: 3),
       (statements, posting) => statements..add(posting),
     );
   }
@@ -13,13 +13,16 @@ extension PostingsExtension on Iterable<Posting> {
   Map<String, List<Posting>> groupByAccount({required int depth}) {
     var map = groupListsBy((r) => r.account.hierarchy[1]);
     for (int i = 2; i <= depth; i++) {
-      map.addAll(where((r) => r.account.hierarchy.length > i).groupListsBy((r) => r.account.hierarchy[i]));
+      map.addAll(where((r) => r.account.hierarchy.length > i)
+          .groupListsBy((r) => r.account.hierarchy[i]));
     }
     return map;
   }
 
-  Map<Account, Map<String, Commodity>> summarize({PeriodType period = PeriodType.daily}) {
-    var m2 = groupFoldBy<Account, Map<String, Commodity>>((p) => p.account, (previous, posting) {
+  Map<Account, Map<String, Commodity>> summarize(
+      {PeriodType period = PeriodType.daily}) {
+    var m2 = groupFoldBy<Account, Map<String, Commodity>>((p) => p.account,
+        (previous, posting) {
       final DateFormat formatter = _getDateFormat(period);
       var key = formatter.format(posting.date);
       if (previous == null) {
@@ -35,7 +38,8 @@ extension PostingsExtension on Iterable<Posting> {
     return m2;
   }
 
-  IncomeStatementLegacy getIncomeStatement({int depth = 2, PeriodType type = PeriodType.monthly}) {
+  IncomeStatementLegacy getIncomeStatement(
+      {int depth = 2, PeriodType type = PeriodType.monthly}) {
     throw Exception('Not implement yet');
   }
 

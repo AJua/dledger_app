@@ -7,17 +7,19 @@ class FinancialStats extends Equatable {
 
   final Set<StatementPeriod> _distinctPeriods;
   final bool _isTree;
+  final int _depth;
 
   Iterable<StatementPeriod> get distinctPeriods => _distinctPeriods;
 
   Map<Account, Statement> get all => _all;
 
-  FinancialStats._(this._periodType, this._isTree)
+  FinancialStats._(this._periodType, this._isTree, this._depth)
       : _all = {},
         _distinctPeriods = {};
 
-  factory FinancialStats.empty(PeriodType type, {bool isTree = false}) {
-    return FinancialStats._(type, isTree);
+  factory FinancialStats.empty(PeriodType type,
+      {bool isTree = false, required int depth}) {
+    return FinancialStats._(type, isTree, depth);
   }
 
   @override
@@ -34,6 +36,9 @@ class FinancialStats extends Equatable {
   }
 
   void _add(Posting posting) {
+    if (posting.account.hierarchy.length > _depth) {
+      return;
+    }
     var period = StatementPeriod(posting.date, _periodType);
     _distinctPeriods.add(period);
     if (_all.containsKey(posting.account)) {

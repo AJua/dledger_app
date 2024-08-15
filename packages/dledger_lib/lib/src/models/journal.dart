@@ -52,11 +52,12 @@ class Journal with ChangeNotifier, DiagnosticableTreeMixin {
       {DateTime? begin,
       DateTime? end,
       PeriodType type = PeriodType.monthly,
-      num depth = 3}) {
+      int depth = -1 >>> 1}) {
     var result = postings.groupFoldBy<AccountCategory, FinancialStats>(
         (posting) => posting.account.category, (previous, posting) {
       if (previous == null) {
-        return FinancialStats.empty(PeriodType.monthly, isTree: true)
+        return FinancialStats.empty(PeriodType.monthly,
+            isTree: true, depth: depth)
           ..add(posting);
       }
       return previous..add(posting);

@@ -3,7 +3,7 @@ import 'package:flutter_test/flutter_test.dart';
 
 main() {
   test('add a single posting', () {
-    var statements = FinancialStats.empty(PeriodType.daily);
+    var statements = FinancialStats.empty(PeriodType.daily, depth: 3);
     const account = Account(['expense', 'foods']);
     const commodity = Commodity(100, '\$', UnitPosition.left);
     var p = Posting(
@@ -25,7 +25,7 @@ main() {
     );
   });
   test('add 2 posting with different accounts', () {
-    var statements = FinancialStats.empty(PeriodType.daily);
+    var statements = FinancialStats.empty(PeriodType.daily, depth: 3);
     const account1 = Account(['expense', 'foods']);
     const account2 = Account(['expense', 'clothes']);
     const commodity = Commodity(100, '\$', UnitPosition.left);
@@ -50,7 +50,7 @@ main() {
     );
   });
   test('add 2 posting with same account and same date', () {
-    var statements = FinancialStats.empty(PeriodType.daily);
+    var statements = FinancialStats.empty(PeriodType.daily, depth: 3);
     const account = Account(['expense', 'foods']);
     const commodity1 = Commodity(100, '\$', UnitPosition.left);
     const commodity2 = Commodity(200, '\$', UnitPosition.left);
@@ -72,7 +72,7 @@ main() {
     );
   });
   test('add 2 posting with same account and different date', () {
-    var statements = FinancialStats.empty(PeriodType.daily);
+    var statements = FinancialStats.empty(PeriodType.daily, depth: 3);
     const account = Account(['expense', 'foods']);
     const commodity1 = Commodity(100, '\$', UnitPosition.left);
     const commodity2 = Commodity(200, '\$', UnitPosition.left);
@@ -95,7 +95,7 @@ main() {
     );
   });
   test('add 2 posting with different account and different date', () {
-    var statements = FinancialStats.empty(PeriodType.daily);
+    var statements = FinancialStats.empty(PeriodType.daily, depth: 3);
     const account1 = Account(['expense', 'foods']);
     const account2 = Account(['expense', 'clothes']);
     const commodity1 = Commodity(100, '\$', UnitPosition.left);
