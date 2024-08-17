@@ -19,19 +19,15 @@ class Home extends StatefulWidget {
     required this.colorSelected,
     required this.handleBrightnessChange,
     required this.handleColorSelect,
-    required this.handleImageSelect,
     required this.colorSelectionMethod,
-    required this.imageSelected,
   });
 
   final bool useLightMode;
   final ColorSeed colorSelected;
-  final ColorImageProvider imageSelected;
   final ColorSelectionMethod colorSelectionMethod;
 
   final void Function(bool useLightMode) handleBrightnessChange;
   final void Function(int value) handleColorSelect;
-  final void Function(int value) handleImageSelect;
 
   @override
   State<Home> createState() => _HomeState();
@@ -81,13 +77,15 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
         showMediumSizeLayout = true;
         showLargeSizeLayout = false;
       }
-      if (status != AnimationStatus.forward && status != AnimationStatus.completed) {
+      if (status != AnimationStatus.forward &&
+          status != AnimationStatus.completed) {
         controller.forward();
       }
     } else {
       showMediumSizeLayout = false;
       showLargeSizeLayout = false;
-      if (status != AnimationStatus.reverse && status != AnimationStatus.dismissed) {
+      if (status != AnimationStatus.reverse &&
+          status != AnimationStatus.dismissed) {
         controller.reverse();
       }
     }
@@ -138,11 +136,6 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
                 colorSelected: widget.colorSelected,
                 colorSelectionMethod: widget.colorSelectionMethod,
               ),
-              _ColorImageButton(
-                handleImageSelect: widget.handleImageSelect,
-                imageSelected: widget.imageSelected,
-                colorSelectionMethod: widget.colorSelectionMethod,
-              )
             ]
           : [Container()],
     );
@@ -164,13 +157,6 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
               colorSelectionMethod: widget.colorSelectionMethod,
             ),
           ),
-          Flexible(
-            child: _ColorImageButton(
-              handleImageSelect: widget.handleImageSelect,
-              imageSelected: widget.imageSelected,
-              colorSelectionMethod: widget.colorSelectionMethod,
-            ),
-          ),
         ],
       );
 
@@ -184,7 +170,8 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
           animationController: controller,
           railAnimation: railAnimation,
           appBar: createAppBar(),
-          body: createScreenFor(ScreenSelected.values[screenIndex], controller.value == 1),
+          body: createScreenFor(
+              ScreenSelected.values[screenIndex], controller.value == 1),
           navigationRail: NavigationRail(
             extended: showLargeSizeLayout,
             destinations: navRailDestinations,
@@ -203,10 +190,8 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
                         useLightMode: widget.useLightMode,
                         handleBrightnessChange: widget.handleBrightnessChange,
                         useMaterial3: true,
-                        handleImageSelect: widget.handleImageSelect,
                         handleColorSelect: widget.handleColorSelect,
                         colorSelectionMethod: widget.colorSelectionMethod,
-                        imageSelected: widget.imageSelected,
                         colorSelected: widget.colorSelected,
                       )
                     : _trailingActions(),
@@ -245,8 +230,9 @@ class _BrightnessButton extends StatelessWidget {
       preferBelow: showTooltipBelow,
       message: 'Toggle brightness',
       child: IconButton(
-        icon:
-            isBright ? const Icon(Icons.dark_mode_outlined) : const Icon(Icons.light_mode_outlined),
+        icon: isBright
+            ? const Icon(Icons.dark_mode_outlined)
+            : const Icon(Icons.light_mode_outlined),
         onPressed: () => handleBrightnessChange(!isBright),
       ),
     );
@@ -306,85 +292,22 @@ class _ColorSeedButton extends StatelessWidget {
   }
 }
 
-class _ColorImageButton extends StatelessWidget {
-  const _ColorImageButton({
-    required this.handleImageSelect,
-    required this.imageSelected,
-    required this.colorSelectionMethod,
-  });
-
-  final void Function(int) handleImageSelect;
-  final ColorImageProvider imageSelected;
-  final ColorSelectionMethod colorSelectionMethod;
-
-  @override
-  Widget build(BuildContext context) {
-    return PopupMenuButton(
-      icon: const Icon(
-        Icons.image_outlined,
-      ),
-      tooltip: 'Select a color extraction image',
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
-      itemBuilder: (context) {
-        return List.generate(ColorImageProvider.values.length, (index) {
-          final currentImageProvider = ColorImageProvider.values[index];
-
-          return PopupMenuItem(
-            value: index,
-            enabled: currentImageProvider != imageSelected ||
-                colorSelectionMethod != ColorSelectionMethod.image,
-            child: Wrap(
-              crossAxisAlignment: WrapCrossAlignment.center,
-              children: [
-                Padding(
-                  padding: const EdgeInsets.only(left: 10),
-                  child: ConstrainedBox(
-                    constraints: const BoxConstraints(maxWidth: 48),
-                    child: Padding(
-                      padding: const EdgeInsets.all(4.0),
-                      child: ClipRRect(
-                        borderRadius: BorderRadius.circular(8.0),
-                        child: Image(
-                          image: NetworkImage(currentImageProvider.url),
-                        ),
-                      ),
-                    ),
-                  ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.only(left: 20),
-                  child: Text(currentImageProvider.label),
-                ),
-              ],
-            ),
-          );
-        });
-      },
-      onSelected: handleImageSelect,
-    );
-  }
-}
-
 class _ExpandedTrailingActions extends StatelessWidget {
   const _ExpandedTrailingActions({
     required this.useLightMode,
     required this.handleBrightnessChange,
     required this.useMaterial3,
     required this.handleColorSelect,
-    required this.handleImageSelect,
-    required this.imageSelected,
     required this.colorSelected,
     required this.colorSelectionMethod,
   });
 
   final void Function(bool) handleBrightnessChange;
-  final void Function(int) handleImageSelect;
   final void Function(int) handleColorSelect;
 
   final bool useLightMode;
   final bool useMaterial3;
 
-  final ColorImageProvider imageSelected;
   final ColorSeed colorSelected;
   final ColorSelectionMethod colorSelectionMethod;
 
@@ -411,7 +334,9 @@ class _ExpandedTrailingActions extends StatelessWidget {
           ),
           Row(
             children: [
-              useMaterial3 ? const Text('Material 3') : const Text('Material 2'),
+              useMaterial3
+                  ? const Text('Material 3')
+                  : const Text('Material 2'),
               Expanded(child: Container()),
               Switch(value: useMaterial3, onChanged: (_) {})
             ],
@@ -420,12 +345,6 @@ class _ExpandedTrailingActions extends StatelessWidget {
           _ExpandedColorSeedAction(
             handleColorSelect: handleColorSelect,
             colorSelected: colorSelected,
-            colorSelectionMethod: colorSelectionMethod,
-          ),
-          const Divider(),
-          _ExpandedImageColorAction(
-            handleImageSelect: handleImageSelect,
-            imageSelected: imageSelected,
             colorSelectionMethod: colorSelectionMethod,
           ),
         ],
@@ -473,76 +392,23 @@ class _ExpandedColorSeedAction extends StatelessWidget {
   }
 }
 
-class _ExpandedImageColorAction extends StatelessWidget {
-  const _ExpandedImageColorAction({
-    required this.handleImageSelect,
-    required this.imageSelected,
-    required this.colorSelectionMethod,
-  });
-
-  final void Function(int) handleImageSelect;
-  final ColorImageProvider imageSelected;
-  final ColorSelectionMethod colorSelectionMethod;
-
-  @override
-  Widget build(BuildContext context) {
-    return ConstrainedBox(
-      constraints: const BoxConstraints(maxHeight: 150.0),
-      child: Padding(
-        padding: const EdgeInsets.symmetric(vertical: 8.0),
-        child: GridView.count(
-          crossAxisCount: 3,
-          children: List.generate(
-            ColorImageProvider.values.length,
-            (i) => Tooltip(
-              message: ColorImageProvider.values[i].name,
-              child: InkWell(
-                borderRadius: BorderRadius.circular(4.0),
-                onTap: () => handleImageSelect(i),
-                child: Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Material(
-                    borderRadius: BorderRadius.circular(4.0),
-                    elevation: imageSelected == ColorImageProvider.values[i] &&
-                            colorSelectionMethod == ColorSelectionMethod.image
-                        ? 3
-                        : 0,
-                    child: Padding(
-                      padding: const EdgeInsets.all(4.0),
-                      child: ClipRRect(
-                        borderRadius: BorderRadius.circular(4.0),
-                        child: Image(
-                          image: NetworkImage(ColorImageProvider.values[i].url),
-                        ),
-                      ),
-                    ),
-                  ),
-                ),
-              ),
-            ),
-          ),
-        ),
-      ),
-    );
-  }
-}
-
-final List<NavigationRailDestination> navRailDestinations = appBarDestinations //
-    .map(
-      //
-      (destination) => NavigationRailDestination(
-        //
-        icon: Tooltip(
+final List<NavigationRailDestination> navRailDestinations =
+    appBarDestinations //
+        .map(
           //
-          message: destination.label, //
-          child: destination.icon, //
-        ), //
-        selectedIcon: Tooltip(
-          //
-          message: destination.label, //
-          child: destination.selectedIcon, //
-        ), //
-        label: Text(destination.label), //
-      ), //
-    ) //
-    .toList();
+          (destination) => NavigationRailDestination(
+            //
+            icon: Tooltip(
+              //
+              message: destination.label, //
+              child: destination.icon, //
+            ), //
+            selectedIcon: Tooltip(
+              //
+              message: destination.label, //
+              child: destination.selectedIcon, //
+            ), //
+            label: Text(destination.label), //
+          ), //
+        ) //
+        .toList();

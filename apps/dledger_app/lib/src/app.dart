@@ -24,13 +24,13 @@ class _DLedgerAppState extends State<DLedgerApp> {
   bool useMaterial3 = true;
   ThemeMode themeMode = ThemeMode.system;
   ColorSeed colorSelected = ColorSeed.baseColor;
-  ColorImageProvider imageSelected = ColorImageProvider.leaves;
   ColorScheme? imageColorScheme = const ColorScheme.light();
   ColorSelectionMethod colorSelectionMethod = ColorSelectionMethod.colorSeed;
 
   bool get useLightMode => switch (themeMode) {
         ThemeMode.system =>
-          View.of(context).platformDispatcher.platformBrightness == Brightness.light,
+          View.of(context).platformDispatcher.platformBrightness ==
+              Brightness.light,
         ThemeMode.light => true,
         ThemeMode.dark => false
       };
@@ -48,17 +48,6 @@ class _DLedgerAppState extends State<DLedgerApp> {
     });
   }
 
-  void handleImageSelect(int value) {
-    final String url = ColorImageProvider.values[value].url;
-    ColorScheme.fromImageProvider(provider: NetworkImage(url)).then((newScheme) {
-      setState(() {
-        colorSelectionMethod = ColorSelectionMethod.image;
-        imageSelected = ColorImageProvider.values[value];
-        imageColorScheme = newScheme;
-      });
-    });
-  }
-
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -66,9 +55,12 @@ class _DLedgerAppState extends State<DLedgerApp> {
       title: 'dledger app',
       themeMode: themeMode,
       theme: ThemeData(
-        colorSchemeSeed:
-            colorSelectionMethod == ColorSelectionMethod.colorSeed ? colorSelected.color : null,
-        colorScheme: colorSelectionMethod == ColorSelectionMethod.image ? imageColorScheme : null,
+        colorSchemeSeed: colorSelectionMethod == ColorSelectionMethod.colorSeed
+            ? colorSelected.color
+            : null,
+        colorScheme: colorSelectionMethod == ColorSelectionMethod.image
+            ? imageColorScheme
+            : null,
         useMaterial3: true,
         brightness: Brightness.light,
       ),
@@ -83,17 +75,16 @@ class _DLedgerAppState extends State<DLedgerApp> {
         create: (BuildContext context) {
           var journal = Journal.init();
           getIt<LedgerFile>().read().then((journalText) async {
-            journal.reload(JournalParser().parseJournal(journalText).transactions);
+            journal
+                .reload(JournalParser().parseJournal(journalText).transactions);
           });
           return journal;
         },
         child: Home(
           useLightMode: useLightMode,
           colorSelected: colorSelected,
-          imageSelected: imageSelected,
           handleBrightnessChange: handleBrightnessChange,
           handleColorSelect: handleColorSelect,
-          handleImageSelect: handleImageSelect,
           colorSelectionMethod: colorSelectionMethod,
         ),
       ),
