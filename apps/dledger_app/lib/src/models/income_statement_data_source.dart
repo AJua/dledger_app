@@ -46,10 +46,9 @@ class IncomeStatementDataSource extends DataGridSource {
               i <= s1.account.hierarchy.length &&
                   i <= s2.account.hierarchy.length;
               i++) {
-            var result = stats!
-                .all[Account(s1.account.hierarchy.sublist(0, i))]!
+            var result = stats.all[Account(s1.account.hierarchy.sublist(0, i))]!
                 .compareTo(
-                    stats!.all[Account(s2.account.hierarchy.sublist(0, i))]!);
+                    stats.all[Account(s2.account.hierarchy.sublist(0, i))]!);
             if (result == 0) {
               continue;
             }
