@@ -2,6 +2,7 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
+import 'package:dledger_app/src/components/income_statement_page.dart';
 import 'package:flutter/material.dart';
 
 const Widget divider = SizedBox(height: 10);
@@ -16,6 +17,6 @@ class BalanceSheetScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const Text('Balance Sheet');
+    return Expanded(child: const IncomeStatementDisplay());
   }
 }

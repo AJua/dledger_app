@@ -1,4 +1,3 @@
-import 'package:collection/collection.dart';
 import 'package:dledger_app/src/models/income_statement_data_source.dart';
 import 'package:dledger_lib/dledger_lib.dart';
 import 'package:flutter/cupertino.dart';
@@ -16,13 +15,9 @@ class IncomeStatementDisplay extends StatefulWidget {
 }
 
 class _IncomeStatementDisplayState extends State<IncomeStatementDisplay> {
-  //late IncomeStatementDataSource dataSource;
-
   @override
   void initState() {
     super.initState();
-    //var statement = IncomeStatementDataProvider().get();
-    //dataSource = IncomeStatementDataSource(incomeStatement: statement);
   }
 
   @override
@@ -31,26 +26,7 @@ class _IncomeStatementDisplayState extends State<IncomeStatementDisplay> {
     if (!journal.isLoaded) {
       return const Text('loading...');
     }
-    var allPostings = journal.transactions.fold<Iterable<Posting>>(
-      [],
-      (postings, transaction) => [...transaction.postings, ...postings],
-    );
-    var result = allPostings.groupFoldBy<String, FinancialStats>(
-        (posting) => posting.account.mainCategory, (previous, posting) {
-      if (previous == null) {
-        return FinancialStats.empty(PeriodType.monthly, isTree: true, depth: 3)
-          ..add(posting);
-      }
-      return previous..add(posting);
-    });
-    var periods = result.entries.fold<Set<StatementPeriod>>(
-        {}, (ps, s) => ps..addAll(s.value.distinctPeriods));
-    for (var entry in result.entries) {
-      entry.value.fillNullValueWithEmpty(periods);
-    }
-
     var incomeStatement = journal.getIncomeStatement();
-
     var dataSource = IncomeStatementDataSource(incomeStatement);
     return SfDataGrid(
       source: dataSource,
