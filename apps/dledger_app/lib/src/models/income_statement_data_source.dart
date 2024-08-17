@@ -1,8 +1,9 @@
 import 'package:collection/collection.dart';
 import 'package:dledger_lib/dledger_lib.dart';
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:syncfusion_flutter_datagrid/datagrid.dart';
+
+import '../global_variables.dart';
 
 class IncomeStatementDataSource extends DataGridSource {
   IncomeStatementDataSource(IncomeStatement incomeStatement) {
@@ -99,7 +100,9 @@ class IncomeStatementDataSource extends DataGridSource {
             child: Text(
               value,
               softWrap: false,
-              style: GoogleFonts.robotoMono(),
+              style: TextStyle(
+                fontFamily: monospace,
+              ),
             )));
   }
 
@@ -122,7 +125,8 @@ class IncomeStatementDataSource extends DataGridSource {
         //padding: const EdgeInsets.symmetric(vertical: 4.0, horizontal: 4.0),
         child: Text(
           '  ${e.value.toString()}  ',
-          style: GoogleFonts.robotoMono(
+          style: TextStyle(
+            fontFamily: monospace,
             fontWeight: (row.getCells().first.value as String).startsWith(' ')
                 ? FontWeight.normal
                 : FontWeight.w800,

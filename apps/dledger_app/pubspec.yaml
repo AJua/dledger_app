@@ -39,7 +39,6 @@ dependencies:
   cupertino_icons: ^1.0.6
   syncfusion_flutter_datagrid: ^26.1.42
   collection: ^1.18.0
-  google_fonts: ^6.2.1
   url_launcher: ^6.3.0
   file_picker: ^8.0.6
   provider: ^6.1.2
