@@ -35,7 +35,7 @@ class StatementPeriod extends Equatable {
       case PeriodType.weekly:
         throw Exception('report by weekly is not supported yet');
       case PeriodType.monthly:
-        return DateFormat.yM().format(date);
+        return DateFormat.yMMM().format(date);
       case PeriodType.yearly:
         return DateFormat.y().format(date);
     }
