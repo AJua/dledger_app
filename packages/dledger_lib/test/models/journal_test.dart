@@ -24,8 +24,8 @@ main() {
     ''';
     var parser = JournalParser();
     var journal = parser.parseJournal(journalText);
-    var incomeStatement = journal.getIncomeStatement();
-    expect(incomeStatement.incomes?.all.length, 0);
-    expect(incomeStatement.expenses?.all.length, 1);
+    var incomeStatement = journal.getIncomeStatement(depth: 1);
+    expect(incomeStatement.incomes, equals(null));
+    expect(incomeStatement.expenses?.all.length, equals(1));
   });
 }

@@ -25,7 +25,7 @@ class Statement extends Equatable implements Comparable<Statement> {
   }
 
   bool _isComparable(Statement other) {
-    return account.hierarchy.length == other.account.hierarchy.length;
+    return account.upperAccount == other.account.upperAccount;
   }
 
   @override

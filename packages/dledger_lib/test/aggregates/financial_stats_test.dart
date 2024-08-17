@@ -112,10 +112,8 @@ main() {
         account1: Statement(account1, {
           StatementPeriod(p1.date, PeriodType.daily): Commodities.empty()
             ..add(commodity1),
-          StatementPeriod(p2.date, PeriodType.daily): Commodities.empty(),
         }),
         account2: Statement(account2, {
-          StatementPeriod(p1.date, PeriodType.daily): Commodities.empty(),
           StatementPeriod(p2.date, PeriodType.daily): Commodities.empty()
             ..add(commodity2),
         }),

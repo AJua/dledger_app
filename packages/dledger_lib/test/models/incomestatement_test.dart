@@ -2,7 +2,7 @@ import 'package:dledger_lib/dledger_lib.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 main() {
-  test('incomestatement', () {
+  test('income statement', () {
     var journalText = r'''
 2024-01-01 opening balances         
     assets:checking          $3000  
@@ -20,6 +20,18 @@ main() {
     var journal = parser.parseJournal(journalText);
     var incomeStatement = journal.getIncomeStatement(depth: 1);
 
-    expect(incomeStatement.expenses, equals({}));
+    expect(
+        incomeStatement.expenses!.all.values,
+        equals(
+          [
+            Statement(const Account(['expenses']), {
+              StatementPeriod(DateTime(2024, 1, 3), PeriodType.monthly):
+                  Commodities.empty()
+                    ..add(const Commodity(530, r'$', UnitPosition.left))
+            })
+          ],
+        ));
   });
 }
+
+//FinancialStats:<FinancialStats({Account(expenses)}): Statement(Account(expenses)}), {1/2024: Commodities({$: Commodity(530.0, $, UnitPosition.left)})})})>
