@@ -13,6 +13,4 @@ export './src/models/posting_dto.dart';
 export './src/models/statement_period.dart';
 export './src/models/transaction.dart';
 export './src/reports/income_statement.dart';
-export './src/reports/income_statement_legacy.dart' show IncomeStatementLegacy;
-export './src/utils/income_statement_reporter.dart';
 export './src/utils/journal_parser.dart';

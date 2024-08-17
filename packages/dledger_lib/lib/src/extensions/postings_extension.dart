@@ -38,11 +38,6 @@ extension PostingsExtension on Iterable<Posting> {
     return m2;
   }
 
-  IncomeStatementLegacy getIncomeStatement(
-      {int depth = 2, PeriodType type = PeriodType.monthly}) {
-    throw Exception('Not implement yet');
-  }
-
   DateFormat _getDateFormat(PeriodType period) {
     switch (period) {
       case PeriodType.daily:
