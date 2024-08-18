@@ -85,18 +85,20 @@ class JournalParser {
   PostingDto parsePosting(String postingText) {
     _debugPrint('parsing Posting "$postingText"');
     var trimPostingText = postingText.trim();
-    if (_isContainsCommodity(trimPostingText)) {
+    var fragments = trimPostingText.split('  ');
+    if (_isContainsCommodity(fragments)) {
       var accountRegExp = RegExp(r'^([\ \S:]+\S)\s{2,}(.*)');
       var firstMatch = accountRegExp.firstMatch(trimPostingText)!;
-
-      var accountText = firstMatch[1]!;
-      var commodityText = firstMatch[2]!;
+      var accountText = fragments[0];
+      var commodityText = fragments.sublist(1).join('  ').trim();
 
       return PostingDto(parseAccount(accountText),
           commodity: parseCommodity(commodityText));
     }
     return PostingDto(parseAccount(trimPostingText));
   }
+
+  bool _isContainsCommodity(List<String> fragments) => fragments.length >= 2;
 
   Account parseAccount(String recordText) {
     return Account(recordText.split(':'));
@@ -124,17 +126,5 @@ class JournalParser {
     var amountText2 = firstMatch![1]!.replaceAll(',', '');
     var unitText = firstMatch[2]!;
     return Commodity(double.parse(amountText2), unitText, UnitPosition.right);
-  }
-
-  bool _isContainsCommodity(String trimPostingText) {
-    var prefixUnit = RegExp(r'([^\s\d\-]+)(\-?[\d\.,]+)$');
-    if (prefixUnit.firstMatch(trimPostingText) != null) {
-      return true;
-    }
-    var suffixUnit = RegExp(r'(\-?[\d\.,]+)\s+(\w+)$');
-    if (suffixUnit.firstMatch(trimPostingText) != null) {
-      return true;
-    }
-    return false;
   }
 }
