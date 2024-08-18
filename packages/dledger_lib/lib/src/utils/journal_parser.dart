@@ -87,8 +87,6 @@ class JournalParser {
     var trimPostingText = postingText.trim();
     var fragments = trimPostingText.split('  ');
     if (_isContainsCommodity(fragments)) {
-      var accountRegExp = RegExp(r'^([\ \S:]+\S)\s{2,}(.*)');
-      var firstMatch = accountRegExp.firstMatch(trimPostingText)!;
       var accountText = fragments[0];
       var commodityText = fragments.sublist(1).join('  ').trim();
 
